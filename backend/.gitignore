@@ -1,0 +1,5 @@
+node_modules
+images/posts/*
+!images/posts/.gitkeep
+images/profils/*
+!images/profils/.gitkeep
