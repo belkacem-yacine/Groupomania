@@ -143,7 +143,6 @@ export default {
             this.mode = 'login';
         },
         login: function () {
-            window.alert('ici')
             const self = this;
             this.$store.dispatch('login', {
                 email: this.email,

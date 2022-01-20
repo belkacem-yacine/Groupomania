@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt');
-//possibilité d installer validator
 
 module.exports = (sequelize, Sequelize) => {
     const User = sequelize.define('users', {
@@ -27,6 +26,9 @@ module.exports = (sequelize, Sequelize) => {
           image_url: {
             type: Sequelize.STRING(255),
             default: "./uploads/profil/random-user.png"
+          },
+          enabled: {
+            type: Sequelize.STRING(100)
           }
         },
         {
@@ -35,9 +37,3 @@ module.exports = (sequelize, Sequelize) => {
 
     return User;
 };
-
-/*User.pre('save', async function(next) {
-  const salt = await bcrypt.genSalt();
-  this.password = await bcrypt.hash(this.password, salt);
-  next();
-})*/
