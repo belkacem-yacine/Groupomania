@@ -33,7 +33,8 @@ const store = createStore({
       lastName:'',
       firstName:'',
       email:'',
-      photo:'', //a changer peut etre
+      image_url:'', //a changer peut etre
+      enabled:'',
     },
   },
   mutations: {
@@ -54,6 +55,11 @@ const store = createStore({
         token: '',
       }
       localStorage.removeItem('user');
+    },
+    DESABLED: function(state) {
+      state.user = {
+        enabled: 0,
+      }
     }
   },
   actions: { 
@@ -88,12 +94,28 @@ const store = createStore({
       })  
     },
     getUserInfos: ({commit}, userId) => {
-      instance.post('/infos/' + userId )
+      instance.get('/' + userId )
         .then(function(response) {
           commit( 'USER_INFOS', response.data);
         })
         .catch(function() {
         });
+    },
+    modifyUserInfos: ({commit}, userId) => {
+      instance.put('/' + userId)
+        .then(function(response) {
+          commit('USER_INFOS', response.data)
+        })
+        .catch(function() {
+        });
+    },
+    desabledUser: ({commit}, userId) => {
+      instance.delete('/' + userId)
+      .then(function(response) {
+        commit('USER_INFOS', response.data)
+      })
+      .catch(function() {
+      });
     }
   },
   modules: {

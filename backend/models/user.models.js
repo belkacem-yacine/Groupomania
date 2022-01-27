@@ -19,18 +19,20 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING(100),
             allowNull: false
           },
-          admin: {
-            type: Sequelize.BOOLEAN,
-            defaultValue: false
-          },
-          image_url: {
-            type: Sequelize.STRING(255),
-            default: "./uploads/profil/random-user.png"
-          },
-          enabled: {
-            type: Sequelize.STRING(100)
-          }
+        admin: {
+          type: Sequelize.BOOLEAN,
+          defaultValue: false
         },
+        enabled: {
+          type: Sequelize.BOOLEAN,
+          defaultValue: true
+        },
+        image_url: {
+          type: Sequelize.STRING(255),
+          allowNull: false,
+          defaultValue: "./images/profils/random-user.png" 
+        }
+    },
         {
           freezeTableName: true
         });
