@@ -8,7 +8,7 @@ module.exports = (sequelize, Sequelize) => {
           },
         image_url: {
           type: Sequelize.STRING(255),
-        }
+        },
     },
     {
         freezeTableName: true

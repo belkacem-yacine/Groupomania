@@ -30,7 +30,7 @@ module.exports = (sequelize, Sequelize) => {
         image_url: {
           type: Sequelize.STRING(255),
           allowNull: false,
-          defaultValue: "./images/profils/random-user.png" 
+          defaultValue: "http://localhost:3000/images/profils/random-user.png" 
         }
     },
         {

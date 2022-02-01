@@ -1,6 +1,5 @@
 const db = require('../models');
 const fs = require('fs');
-const { post } = require('../routes/user');
 
 exports.createPost = (req, res, next) => {
     console.log(req.body)
@@ -9,14 +8,8 @@ exports.createPost = (req, res, next) => {
         ...JSON.parse(req.body.post),
         image_url: `${req.protocol}://${req.get('host')}/images/posts/${req.file.filename}`,
     } : { ...JSON.parse(req.body.post)};
-    
-        let image_url = '';
-        if(req.file) {
-            image_url = `${req.protocol}://${req.get('host')}/images/posts/${req.file.filename}`
-        }
         db.Post.create({
-            post: postObject.post,
-            image_url: image_url,
+            ...postObject
         })
         .then(() => res.status(201).json({ message: 'Publication créee !' }))
         .catch(error => res.status(400).json({ error: 'Création impossible' }));
@@ -40,7 +33,7 @@ exports.modifyPost = (req, res, next) => {
         const filename = post.image_url.split('/images/posts/')[1] //entre crochet le 1 cest pour acceder a un tableau 
         if(req.file) {
             fs.unlink(`images/posts/${filename}`, () => {
-            }); // si ca marche pas decommenter ici
+            });
           }   
             db.Post.updateOne({ where : { id: req.params.id }}, { ...postObject })
                 .then(() => res.status(200).json({ message: 'Publication modifiée !'}))
@@ -51,7 +44,7 @@ exports.modifyPost = (req, res, next) => {
 
 exports.deletPost = (req, res, next) => {
     db.Post.delete(
-        
+
     )
                 .then(() => res.status(200).json({ message: 'Publication supprimée !'}))
                 .catch(error => res.status(400).json({ error }))

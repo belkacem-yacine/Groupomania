@@ -69,9 +69,7 @@ export default {
                     confirm:'',
                 },   
             },
-            profil_image: '',
-            error:'',
-            
+            profil_image: '',        
         })
 
         const rules = computed(() => {
@@ -85,7 +83,7 @@ export default {
                             confirm:{ required, sameAs: sameAs(state.input.password.password) },
                         },    
                 },
-                profil_image: {}, // est ce que je dois le mettre dans l input
+                profil_image: {},
             }
         })
 
@@ -96,35 +94,17 @@ export default {
             v$,
         }
     }, 
-    /*data: function () {
+    data: function () {
             return{
-                v$ : useValidate(),
-                input: {
-                    lastName: '',
-                    firstName: '',
-                    email: '',
-                    password:'',
-                },
-                profil_image: null,
-                error: '', //etape 2
+                error: ''
             }
-        },*/
+    },
     mounted: function () {
         if(this.$store.state.user.userId != -1) {
             this.$router.push('/profile');
             return ;
         }
     },
-    /*validations() {
-        return {
-            input: {
-                    lastName: { required },
-                    firstName: { required },
-                    email: { required, email },
-                    password: { required, minLength: minLength(6) },
-                },
-        }
-    },*/
     computed: {
         validatedFields: function () { // même problème ici que sur login.vue
             if (this.mode == 'create') {

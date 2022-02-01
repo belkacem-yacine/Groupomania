@@ -17,24 +17,16 @@ exports.signup = (req, res, next) => {
                 if(!user) {
                    bcrypt.hash(userObject.password, 10) // code de création du compte
                     .then(hash => {
-                        let image_url = '';
-                        if(req.file) {
-                            image_url = `${req.protocol}://${req.get('host')}/images/profils/${req.file.filename}`
-                        }
-                        console.log(image_url)
+                        userObject.password = hash;
                         db.User.create({
-                            email: userObject.email,
-                            password: hash,
-                            firstName: userObject.firstName,
-                            lastName: userObject.lastName,
-                            image_url: image_url,
+                            ...userObject
                         })
                         .then(() => res.status(201).json({ message: 'Utilisateur crée !' }))
                         .catch(error => res.status(400).json({ error: 'Création impossible' }));
                     })
                     .catch(error => res.status(500).json({ error: 'erreur serveur' })); 
                 } else {
-                    return error => res.status (409).json({error: 'Email déjà utilisé'})
+                    return res.status (400).json({error: 'Email déjà utilisé'})
                 }
             } 
         )
