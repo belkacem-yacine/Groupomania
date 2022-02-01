@@ -3,13 +3,13 @@
         <h1 class="card__title">Inscription</h1>
         <p class="card__subtitle">Tu as déjà un compte? <router-link to="/login">Connecte toi</router-link></p>
         <div class="form-row">
-            <input class="form-row__input" v-model="input.lastName" type="text" placeholder="Nom" required/>
+            <input class="form-row__input" v-model="state.input.lastName" type="text" placeholder="Nom" required/>
             <span v-if="v$.input.lastName.$error">
-                {{ v$.email.$errors[0].$message }}
+                {{ v$.input.lastName.$errors[0].$message }}
             </span>
-            <input class="form-row__input" v-model="input.firstName" type="text" placeholder="Prénom" required/>
+            <input class="form-row__input" v-model="state.input.firstName" type="text" placeholder="Prénom" required/>
             <span v-if="v$.input.firstName.$error">
-                {{ v$.email.$errors[0].$message }}
+                {{ v$.input.firstName.$errors[0].$message }}
             </span>
         </div>
         <div>
@@ -18,15 +18,21 @@
             <img class="profil_card__logo" ref="filePreview" alt="" src="">
         </div>
         <div class="form-row">
-            <input class="form-row__input" v-model="input.email" type="email" placeholder="Email" required/>
+            <input class="form-row__input" v-model="state.input.email" type="email" placeholder="Email" required/>
             <span v-if="v$.input.email.$error">
-                {{ v$.email.$errors[0].$message }}
+                {{ v$.input.email.$errors[0].$message }}
             </span>
         </div>
         <div class="form-row">
-            <input class="form-row__input" v-model="input.password" type="password" placeholder="Mot de passe" required/>
-            <span v-if="v$.input.password.$error">
-                {{ v$.email.$errors[0].$message }}
+            <input class="form-row__input" v-model="state.input.password.password" type="password" placeholder="Mot de passe" required/>
+            <span v-if="v$.input.password.password.$error">
+                {{ v$.input.password.password.$errors[0].$message }}
+            </span>
+        </div>
+        <div class="form-row">
+            <input class="form-row__input" v-model="state.input.password.confirm" type="password" placeholder="Confirmation du mot de passe" required/>
+            <span v-if="v$.input.password.confirm.$error">
+                {{ v$.input.password.confirm.$errors[0].$message }}
             </span>
         </div>
         <div class="form-row" v-if="status == 'error_create' ">
@@ -38,40 +44,49 @@
                 <span v-else>Créer un compte</span>
             </button>
         </div>
-        <span> {{ error }} </span>
+        <span> {{ error }} </span> <!-- etape 1 après le backend -->
     </div>
 </template>
+
 
 <script>
 
 import {mapState} from 'vuex'
 import useValidate from '@vuelidate/core'
-import { required, email, minLength, /*sameAs*/ } from '@vuelidate/validators'
-//import { reactive, computed } from 'vue'
+import { required, email, minLength, sameAs } from '@vuelidate/validators'
+import { reactive, computed } from 'vue'
 
 export default {
-    name: 'Login',
-    /*setup () {
+    name: 'Signup',
+    setup () {
         const state = reactive({
-            mode: 'login',
-                input: {
-                    lastName: '',
-                    firstName: '',
-                    email: '',
+            input: {
+                lastName: '',
+                firstName: '',
+                email: '',
+                password:{
                     password:'',
-                },
-                profil_image: null,
+                    confirm:'',
+                },   
+            },
+            profil_image: '',
+            error:'',
+            
         })
 
         const rules = computed(() => {
             return {
-            input: {
-                    lastName: { required },
-                    firstName: { required },
-                    email: { required, email },
-                    password: { required, minLength: minLength(6) },
+                input: {
+                        lastName: { required },
+                        firstName: { required },
+                        email: { required, email },
+                        password: {
+                            password:{ required, minLength: minLength(6) },
+                            confirm:{ required, sameAs: sameAs(state.input.password.password) },
+                        },    
                 },
-        }
+                profil_image: {}, // est ce que je dois le mettre dans l input
+            }
         })
 
         const v$ = useValidate(rules, state)
@@ -79,8 +94,9 @@ export default {
         return {
             state,
             v$,
-        }*/
-    data: function () {
+        }
+    }, 
+    /*data: function () {
             return{
                 v$ : useValidate(),
                 input: {
@@ -92,14 +108,14 @@ export default {
                 profil_image: null,
                 error: '', //etape 2
             }
-        },
+        },*/
     mounted: function () {
         if(this.$store.state.user.userId != -1) {
             this.$router.push('/profile');
             return ;
         }
     },
-    validations() {
+    /*validations() {
         return {
             input: {
                     lastName: { required },
@@ -108,7 +124,7 @@ export default {
                     password: { required, minLength: minLength(6) },
                 },
         }
-    },
+    },*/
     computed: {
         validatedFields: function () { // même problème ici que sur login.vue
             if (this.mode == 'create') {
@@ -128,17 +144,11 @@ export default {
         ...mapState([status])
     },
     methods: {
-        switchToCreateAccount: function () {
-            this.mode = 'create';
-        },
-        switchToLogin: function () {
-            this.mode = 'login';
-        },
         login: function () {
             const self = this
             this.$store.dispatch('login', {
-                email: this.input.email,
-                password: this.input.password,
+                email: this.state.input.email,
+                password: this.state.input.password.password,
             }).then(function() {
                 self.$router.push('/profile');
             }, function(error) {
@@ -148,28 +158,31 @@ export default {
         signup: function () {
             this.v$.$validate()
             if (!this.v$.$error) {
-                alert ('Compte crée!')
-            } else {
-                alert('Le formulaire est incomplet')
+                const self = this;
+                const fd = new FormData();
+                fd.append('profil_image', this.state.profil_image);
+                let user = {
+                    lastName: this.state.input.lastName,
+                    firstName: this.state.input.firstName,
+                    email: this.state.input.email,
+                    password: this.state.input.password.password,
+                }
+                fd.append('user', JSON.stringify(user));
+                this.$store.dispatch('signup', fd)
+                .then(function() {
+                    self.login();
+                }, function(error) {
+                    self.error = error.response.data.error;
+                })
             }
-            const self = this;
-            const fd = new FormData();
-            fd.append('profil_image', this.profil_image);
-            fd.append('user', JSON.stringify(this.input));
-            this.$store.dispatch('signup', fd)
-            .then(function() {
-                self.login();
-            }, function(error) {
-                self.error = error.response.data.error;
-            })
         },
         onFilePicked: function () {
-            this.profil_image = event.target.files[0];
+            this.state.profil_image = event.target.files[0];
             let reader = new FileReader();
             reader.onload = () => {
             this.$refs.filePreview.src = reader.result;
             }
-      reader.readAsDataURL(this.profil_image);
+      reader.readAsDataURL(this.state.profil_image);
         },
     }
 }

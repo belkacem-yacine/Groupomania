@@ -4,28 +4,40 @@ const db = require('../models');
 const fs = require('fs');
 
 exports.signup = (req, res, next) => {
+    console.log(req.body)
     const userObject = req.file ? 
     {
         ...JSON.parse(req.body.user),
         image_url: `${req.protocol}://${req.get('host')}/images/profils/${req.file.filename}`,
     } : { ...JSON.parse(req.body.user)};
-    bcrypt.hash(userObject.password, 10)
-    .then(hash => {
-        let image_url = null // ptre le laisser vide
-        if(req.file) {
-            image_url = `${req.protocol}://${req.get('host')}/images/profils/${req.file.filename}`
-        }
-        db.User.create({
-            email: userObject.email,
-            password: hash,
-            firstName: userObject.firstName,
-            lastName: userObject.lastName,
-            image_url
-        })
-        .then(() => res.status(201).json({ message: 'Utilisateur crée !' }))
-        .catch(error => res.status(400).json({ error: 'Création impossible' }));
-    })
-    .catch(error => res.status(500).json({ error: 'erreur serveur' }));
+
+    db.User.findOne( { where: { email: userObject.email }})
+        .then(
+            user => {
+                if(!user) {
+                   bcrypt.hash(userObject.password, 10) // code de création du compte
+                    .then(hash => {
+                        let image_url = '';
+                        if(req.file) {
+                            image_url = `${req.protocol}://${req.get('host')}/images/profils/${req.file.filename}`
+                        }
+                        console.log(image_url)
+                        db.User.create({
+                            email: userObject.email,
+                            password: hash,
+                            firstName: userObject.firstName,
+                            lastName: userObject.lastName,
+                            image_url: image_url,
+                        })
+                        .then(() => res.status(201).json({ message: 'Utilisateur crée !' }))
+                        .catch(error => res.status(400).json({ error: 'Création impossible' }));
+                    })
+                    .catch(error => res.status(500).json({ error: 'erreur serveur' })); 
+                } else {
+                    return error => res.status (409).json({error: 'Email déjà utilisé'})
+                }
+            } 
+        )
 }
 
 exports.login = (req, res, next) => {
@@ -83,7 +95,16 @@ exports.modifyUser = (req, res, next) => {
 };
 
 exports.deleteUser = (req, res, next) => {
-    db.User.updateOne({ where : { id: req.params.id }}, { enabled: 0 })
+    db.User.update(
+        {
+         enabled: 0
+        },
+        {
+           where: {
+              id: req.params.id,
+           },
+        }
+     )
                 .then(() => res.status(200).json({ message: 'Compte désactivé !'}))
                 .catch(error => res.status(400).json({ error }))
 };

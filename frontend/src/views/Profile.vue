@@ -1,12 +1,12 @@
 <template>
     <div class="card">
         <h1 class="card__title">Espace perso</h1>
-        <p class="card__subtitle">Voilà donc qui je suis...</p>
-        <p> {{user.firstName}} {{user.lastName}} {{user.email}} </p>
         <div>
+            <p class="card__subtitle">Voilà donc qui je suis...</p>
+            <p> {{user.firstName}} {{user.lastName}} {{user.email}} </p>
             <img :src="user.image_url" alt=""/>
-            <button>Modifiez votre photo de profil</button>
-        </div>
+            <button><router-link to="/modifyProfile">Modifiez votre profil</router-link></button>
+        </div>     
         <button @click="desabledUser()">
             Desactivez votre compte
         </button>
@@ -43,7 +43,7 @@ export default {
             const self = this
             this.$store.dispatch('desabledUser', this.$store.state.user.userId)
             .then(function() {
-                self.$router.push('/');
+                self.logout()
             }, function(error) {
                 self.error = error.response.data.error; // etape 3
             })

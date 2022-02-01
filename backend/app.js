@@ -1,3 +1,4 @@
+const path = require('path')
 const express = require('express');
 const cors = require('cors');
 
@@ -29,5 +30,7 @@ app.use('/api/auth', userRoutes);
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to my application."});
 });
+
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 module.exports = app;

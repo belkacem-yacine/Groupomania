@@ -3,13 +3,13 @@
         <h1 class="card__title">Connecte toi à ton compte groupomania</h1>
         <p class="card__subtitle">Tu n'as pas encore de compte?  <router-link to="/">Inscris toi</router-link></p>
         <div class="form-row">
-            <input class="form-row__input" v-model="input.email" type="email" placeholder="Email" required/>
+            <input class="form-row__input" v-model="state.input.email" type="email" placeholder="Email" required/>
             <span v-if="v$.input.email.$error">
                 {{ v$.input.email.$errors[0].$message }}
             </span>
         </div>
         <div class="form-row">
-            <input class="form-row__input" v-model="input.password" type="password" placeholder="Mot de passe" required/>
+            <input class="form-row__input" v-model="state.input.password" type="password" placeholder="Mot de passe" required/>
             <span v-if="v$.input.password.$error">
                 {{ v$.input.password.$errors[0].$message }}
             </span>
@@ -32,11 +32,11 @@
 import {mapState} from 'vuex'
 import useValidate from '@vuelidate/core'
 import { required, email, minLength } from '@vuelidate/validators'
-//import { reactive, computed } from 'vue'
+import { reactive, computed } from 'vue'
 
 export default {
     name: 'Login',
-    /*setup () {
+    setup () {
         const state = reactive({
                 input: {
                     email: '',
@@ -58,8 +58,9 @@ export default {
         return {
             state,
             v$,
-        }*/
-    data: function () {
+        }
+    },
+    /*data: function () {
             return{
                 v$ : useValidate(),
                 input: {
@@ -68,21 +69,21 @@ export default {
                 },
                 error: '', //etape 2
             }
-        },
+        },*/
     mounted: function () {
         if(this.$store.state.user.userId != -1) {
             this.$router.push('/profile');
             return ;
         }
     },
-    validations() {
+    /*validations() {
         return {
             input: {
                     email: { required, email },
                     password: { required, minLength: minLength(6) },
                 },
         }
-    },
+    },*/
     computed: {
         validatedFields: function () {
             if (this.mode == 'create') {
@@ -103,30 +104,30 @@ export default {
     },
     methods: {
         login: function () {
-            /*this.v$.$validate()
+            this.v$.$validate()
             if (!this.v$.$error) {
                 alert ('Vous etes connecté!')
             } else {
                 alert('Le formulaire est incomplet')
-            }*/
+            }
             const self = this
             this.$store.dispatch('login', {
-                email: this.input.email,
-                password: this.input.password,
+                email: this.state.input.email,
+                password: this.state.input.password,
             }).then(function() {
                 self.$router.push('/profile');
             }, function(error) {
                 self.error = error.response.data.error; // etape 3
             })
         },
-        onFilePicked: function () {
+        /*onFilePicked: function () {
             this.profil_image = event.target.files[0];
             let reader = new FileReader();
             reader.onload = () => {
             this.$refs.filePreview.src = reader.result;
             }
-      reader.readAsDataURL(this.profil_image);
-        },
+      reader.readAsDataURL(this.state.profil_image);
+        },*/
     }
 }
 </script>

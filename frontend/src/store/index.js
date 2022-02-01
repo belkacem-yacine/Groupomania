@@ -30,11 +30,7 @@ const store = createStore({
     status: '',
     user: user,
     userInfos: {
-      lastName:'',
-      firstName:'',
-      email:'',
-      image_url:'', //a changer peut etre
-      enabled:'',
+
     },
   },
   mutations: {
@@ -56,8 +52,17 @@ const store = createStore({
       }
       localStorage.removeItem('user');
     },
+    MODIFY_USER_INFOS: function (state) {
+      state.userInfos = {
+        ...state.userInfos,
+        lastName: '',
+        firstName: '',
+        profil_image: '',
+      }
+    },
     DESABLED: function(state) {
-      state.user = {
+      state.userInfos = {
+        ...state.userInfos,
         enabled: 0,
       }
     }
@@ -79,6 +84,7 @@ const store = createStore({
       })  
     },
     signup: ({commit}, userInfos) => {
+      console.log(userInfos)
       commit( 'SET_STATUS', 'loading')
       return new Promise((resolve, reject) =>{
         commit;
@@ -96,23 +102,23 @@ const store = createStore({
     getUserInfos: ({commit}, userId) => {
       instance.get('/' + userId )
         .then(function(response) {
-          commit( 'USER_INFOS', response.data);
+          commit('USER_INFOS', response.data);
         })
         .catch(function() {
         });
     },
     modifyUserInfos: ({commit}, userId) => {
-      instance.put('/' + userId)
+      instance.put('/modifyUser/' + userId)
         .then(function(response) {
-          commit('USER_INFOS', response.data)
+          commit('MODIFY_USER_INFOS', response.data)
         })
         .catch(function() {
         });
     },
     desabledUser: ({commit}, userId) => {
-      instance.delete('/' + userId)
+      instance.put('/deleteUser/' + userId)
       .then(function(response) {
-        commit('USER_INFOS', response.data)
+        commit('DESABLED', response.data)
       })
       .catch(function() {
       });
