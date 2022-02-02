@@ -1,5 +1,3 @@
-const bcrypt = require('bcrypt');
-
 module.exports = (sequelize, Sequelize) => {
     const User = sequelize.define('users', {
         email: {
@@ -33,9 +31,15 @@ module.exports = (sequelize, Sequelize) => {
           defaultValue: "http://localhost:3000/images/profils/random-user.png" 
         }
     },
-        {
-          freezeTableName: true
-        });
-
+    {
+      freezeTableName: true
+    });
+    
+    User.associate = models => {
+      User.hasMany(models.Post, {
+        onDelete: "cascade"
+      });
+    };
+    
     return User;
 };

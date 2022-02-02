@@ -15,10 +15,16 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 
 const db = {};
 
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
-
 db.User = require("./user.models")(sequelize, Sequelize);
 db.Post = require('./post.models')(sequelize, Sequelize);
+
+Object.keys(db).forEach(modelName => {
+    if (db[modelName].associate) {
+        db[modelName].associate(db);
+    }
+});
+
+db.Sequelize = Sequelize;
+db.sequelize = sequelize;
 
 module.exports = db;

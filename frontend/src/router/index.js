@@ -3,6 +3,7 @@ import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
 import Profile from '../views/Profile.vue'
 import UpdateProfile from '../views/ModifyProfile.vue'
+import Post from '../views/Post.vue'
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path:'/modifyProfile',
     name:'ModifyProfile',
     component: UpdateProfile
+  },
+  {
+    path:'/post',
+    name:'Post',
+    component: Post
   }
 ]
 

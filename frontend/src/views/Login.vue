@@ -23,7 +23,7 @@
                 <span v-else>Connexion</span>
             </button>
         </div>
-        <span> {{ error }} </span> <!-- etape 1 après le backend -->
+        <span> {{ error }} </span> 
     </div>
 </template>
 
@@ -60,30 +60,17 @@ export default {
             v$,
         }
     },
-    /*data: function () {
+    data: function () {
             return{
-                v$ : useValidate(),
-                input: {
-                    email: '',
-                    password:'',
-                },
-                error: '', //etape 2
+                error:''
             }
-        },*/
+        },
     mounted: function () {
         if(this.$store.state.user.userId != -1) {
             this.$router.push('/profile');
             return ;
         }
     },
-    /*validations() {
-        return {
-            input: {
-                    email: { required, email },
-                    password: { required, minLength: minLength(6) },
-                },
-        }
-    },*/
     computed: {
         validatedFields: function () {
             if (this.mode == 'create') {
@@ -106,28 +93,18 @@ export default {
         login: function () {
             this.v$.$validate()
             if (!this.v$.$error) {
-                alert ('Vous etes connecté!')
-            } else {
-                alert('Le formulaire est incomplet')
-            }
-            const self = this
-            this.$store.dispatch('login', {
-                email: this.state.input.email,
-                password: this.state.input.password,
+                const self = this
+                this.$store.dispatch('login', {
+                    email: this.state.input.email,
+                    password: this.state.input.password,
             }).then(function() {
                 self.$router.push('/profile');
             }, function(error) {
-                self.error = error.response.data.error; // etape 3
+                self.error = error.response.data.error;
             })
+        }
+     
         },
-        /*onFilePicked: function () {
-            this.profil_image = event.target.files[0];
-            let reader = new FileReader();
-            reader.onload = () => {
-            this.$refs.filePreview.src = reader.result;
-            }
-      reader.readAsDataURL(this.state.profil_image);
-        },*/
     }
 }
 </script>

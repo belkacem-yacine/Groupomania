@@ -1,5 +1,3 @@
-const { Post } = require(".");
-
 module.exports = (sequelize, Sequelize) => {
     const Post = sequelize.define('posts', {
         post: {
@@ -14,6 +12,13 @@ module.exports = (sequelize, Sequelize) => {
         freezeTableName: true
     });
 
+    Post.associate = models => {
+        Post.belongsTo(models.User, {
+            foreignKey: {
+                allowNull: false
+            }
+        });
+    };
     return Post;
 };
 
