@@ -11,15 +11,30 @@
                 {{ v$.input.firstName.$errors[0].$message }}
             </span>
         </div>
+        <p>Etes-vous administrateur</p>
+        <div>
+        <input type="radio" id="yes" name="admin" value="true" v-model="state.input.admin">
+        <label for="yes">Oui</label>
+        </div>
+        <div>
+        <input type="radio" id="no" name="admin" value="false" v-model="state.input.admin"> 
+        <label for="no">Non</label>
+        </div>
+        <div v-if="showAdminPassword">
+            <input class="form-row__input" v-model="state.input.adminPassword" type="password" placeholder="Mot de passe administrateur" required/>
+            <span v-if="v$.input.adminPassword.$error">
+                {{ v$.input.adminPassword.$errors[0].$message }}
+            </span>
+        </div>
         <div>
             <input style="display:none" type="file" accept="image/*" @change="onFilePicked" ref="fileInput">
             <button @click.prevent="$refs.fileInput.click()">Choisir une photo de profil</button>
             <img class="profil_card__logo" ref="filePreview" alt="" src="">
         </div>
+        
         <div>
             <button @click="modifyProfile()" class="button" :class="{'button--disabled' : !validatedFields}">
-                <span v-if="status == 'loading' ">Enregistrement en cours ...</span>
-                <span v-else>Enregistrer</span>
+                <span>Enregistrer</span>
             </button>
         </div>
         <span> {{ error }} </span> <!-- etape 1 après le backend -->
@@ -29,8 +44,9 @@
 
 <script>
 
+import { mapState } from "vuex";
 import useValidate from '@vuelidate/core'
-import { required} from '@vuelidate/validators'
+import { required, /*requiredIf, helpers*/} from '@vuelidate/validators'
 import { reactive, computed } from 'vue'
 
 export default {
@@ -39,7 +55,9 @@ export default {
         const state = reactive({
             input: {
                 lastName: '',
-                firstName: '', 
+                firstName: '',
+                admin:'', 
+                adminPassword:''
             },
             profil_image: '',        
         })
@@ -48,7 +66,9 @@ export default {
             return {
                 input: {
                         lastName: { required },
-                        firstName: { required },  
+                        firstName: { required },
+                        admin: { required }, 
+                        adminPassword: { required }
                 },
                 profil_image: {},
             }
@@ -66,27 +86,29 @@ export default {
                 error: '',
             }
         },
-    methods: {
-        /*signup: function () {
-            if (!this.v$.$error) {
-                const self = this;
-                const fd = new FormData();
-                fd.append('profil_image', this.state.profil_image);
-                let user = {
-                    lastName: this.state.input.lastName,
-                    firstName: this.state.input.firstName,
-                    email: this.state.input.email,
-                    password: this.state.input.password.password,
-                }
-                fd.append('user', JSON.stringify(user));
-                this.$store.dispatch('signup', fd)
-                .then(function() {
-                    self.login();
-                }, function(error) {
-                    self.error = error.response.data.error;
-                })
+    mounted: function () {
+        const self = this
+        this.$store.dispatch('getUserInfos', this.$store.state.user.userId)
+        .then(function() {
+          self.state.input.firstName = self.user.firstName;
+          self.state.input.lastName = self.user.lastName;
+          self.state.input.admin = self.user.admin;
+        })
+    },
+    computed: {
+        showAdminPassword: function() {
+            console.log(this.state.input.admin)
+            if(this.state.input.admin == false) {
+                return false
+            } else {
+                return true
             }
-        },*/
+        },
+        ...mapState({ 
+            user: 'userInfos',
+        })
+    },
+    methods: {
         modifyProfile: function() {
             this.v$.$validate()
             if (!this.v$.$error) {
@@ -96,6 +118,7 @@ export default {
                 let user = {
                     lastName: this.state.input.lastName,
                     firstName: this.state.input.firstName,
+                    admin: this.state.input.admin,
                 }
                 fd.append('user', JSON.stringify(user));
                 this.$store.dispatch('modifyUserInfos',{userAllInfos: fd, userId: this.$store.state.user.userId})
@@ -107,12 +130,12 @@ export default {
             }
         },
         onFilePicked: function () {
-            this.profil_image = event.target.files[0];
+            this.state.profil_image = event.target.files[0];
             let reader = new FileReader();
             reader.onload = () => {
             this.$refs.filePreview.src = reader.result;
             }
-      reader.readAsDataURL(this.profil_image);
+      reader.readAsDataURL(this.state.profil_image);
         },
     }
 }

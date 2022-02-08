@@ -6,7 +6,7 @@
             <p> {{user.firstName}} {{user.lastName}} {{user.email}} </p>
             <img :src="user.image_url" alt=""/>
             <button><router-link to="/modifyProfile">Modifiez votre profil</router-link></button>
-        </div>     
+        </div>
         <button @click="desabledUser()">
             Desactivez votre compte
         </button>
