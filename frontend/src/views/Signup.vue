@@ -35,13 +35,9 @@
                 {{ v$.input.password.confirm.$errors[0].$message }}
             </span>
         </div>
-        <div class="form-row" v-if="status == 'error_create' ">
-            Adresse mail déjà utilisée
-        </div>
         <div>
-            <button @click="signup()" class="button" :class="{'button--disabled' : !validatedFields}">
-                <span v-if="status == 'loading' ">Création en cours ...</span>
-                <span v-else>Créer un compte</span>
+            <button @click="signup()" class="button">
+                <span>Créer un compte</span>
             </button>
         </div>
         <span> {{ error }} </span> <!-- etape 1 après le backend -->
@@ -51,7 +47,6 @@
 
 <script>
 
-import {mapState} from 'vuex'
 import useValidate from '@vuelidate/core'
 import { required, email, minLength, sameAs } from '@vuelidate/validators'
 import { reactive, computed } from 'vue'
@@ -104,24 +99,6 @@ export default {
             this.$router.push('/profile');
             return ;
         }
-    },
-    computed: {
-        validatedFields: function () { // même problème ici que sur login.vue
-            if (this.mode == 'create') {
-                if (this.email != "" && this.lastName != "" && this.firstName != "" && this.password != "") {
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                if (this.email != "" && this.password != "") {
-                    return true;
-                } else {
-                    return false;
-                }
-            }  
-        },
-        ...mapState([status])
     },
     methods: {
         login: function () {

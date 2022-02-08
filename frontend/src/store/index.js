@@ -27,16 +27,12 @@ if (!user) {
 
 const store = createStore({
   state: {
-    status: '',
     user: user,
     userInfos: {
 
     },
   },
   mutations: {
-    SET_STATUS: function (state, status) {
-      state.status = status;
-    },
     LOG_USER: function (state, user) {
       instance.defaults.headers.common['Authorization'] = user.token;
       localStorage.setItem('user', JSON.stringify(user));
@@ -69,32 +65,26 @@ const store = createStore({
   },
   actions: { 
     login: ({commit}, userInfos) => {
-      commit( 'SET_STATUS', 'loading')
       return new Promise((resolve, reject) =>{
         instance.post('/login', userInfos)
         .then(function(response) {
-          commit( 'SET_STATUS', '');
           commit('LOG_USER', response.data);
           resolve(response); 
         })
         .catch(function(error) {
-          commit( 'SET_STATUS', 'error_login');
           reject(error);
         });
       })  
     },
     signup: ({commit}, userInfos) => {
       console.log(userInfos)
-      commit( 'SET_STATUS', 'loading')
       return new Promise((resolve, reject) =>{
         commit;
         instance.post('/signup', userInfos)
         .then(function(response) {
-          commit( 'SET_STATUS', 'created');
           resolve(response);
         })
         .catch(function(error) {
-          commit( 'SET_STATUS', 'error_create');
           reject(error);
         });
       })  
@@ -107,8 +97,8 @@ const store = createStore({
         .catch(function() {
         });
     },
-    modifyUserInfos: ({commit}, userId) => {
-      instance.put('/modifyUser/' + userId)
+    modifyUserInfos: ({commit}, user) => {
+      instance.put('/modifyUser/' + user.userId, user.userAllInfos)
         .then(function(response) {
           commit('MODIFY_USER_INFOS', response.data)
         })
@@ -119,6 +109,14 @@ const store = createStore({
       instance.put('/deleteUser/' + userId)
       .then(function(response) {
         commit('DESABLED', response.data)
+      })
+      .catch(function() {
+      });
+    },
+    createPost: ({commit}, postInfos) => {
+      instance.post('/createPost/'+ postInfos)
+      .then(function(response) {
+        commit(response.data)
       })
       .catch(function() {
       });

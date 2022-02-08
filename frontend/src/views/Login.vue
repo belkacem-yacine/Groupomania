@@ -14,13 +14,9 @@
                 {{ v$.input.password.$errors[0].$message }}
             </span>
         </div>
-        <div class="form-row" v-if="status == 'error_login' ">
-            Adresse mail et/ou mot de passe invalide
-        </div>
         <div>
-            <button @click="login()" class="button" :class="{'button--disabled' : !validatedFields}">
-                <span v-if="status == 'loading' ">Connexion en cours ...</span>
-                <span v-else>Connexion</span>
+            <button @click="login()" class="button">
+                <span>Connexion</span>
             </button>
         </div>
         <span> {{ error }} </span> 
@@ -28,8 +24,6 @@
 </template>
 
 <script>
-
-import {mapState} from 'vuex'
 import useValidate from '@vuelidate/core'
 import { required, email, minLength } from '@vuelidate/validators'
 import { reactive, computed } from 'vue'
@@ -70,24 +64,6 @@ export default {
             this.$router.push('/profile');
             return ;
         }
-    },
-    computed: {
-        validatedFields: function () {
-            if (this.mode == 'create') {
-                if (this.email != "" && this.lastName != "" && this.firstName != "" && this.password != "") { // je n'arrive pas a supprimer cette condition sans créer de problème
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                if (this.email != "" && this.password != "") {
-                    return true;
-                } else {
-                    return false;
-                }
-            }  
-        },
-        ...mapState([status])
     },
     methods: {
         login: function () {
