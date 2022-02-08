@@ -74,11 +74,11 @@ exports.modifyUser = (req, res, next) => {
     } : { ...JSON.parse(req.body.user)};
     db.User.findOne({ where : { id: req.params.id }})
     .then( user => {
-        /*const filename = user.image_url.split('/images/profils/')[1] //entre crochet le 1 cest pour acceder a un tableau 
+        const filename = user.image_url.split('/images/profils/')[1]; //entre crochet le 1 cest pour acceder a un tableau 
         if(req.file) {
-            fs.unlink(`images/profils/${filename}`);
-          }   */
-            db.User.updateOne({ where : { id: req.params.id }}, { ...userObject })
+            fs.unlink(`images/profils/${filename}`, () => {});
+          }
+            db.User.update( { ...userObject }, { where : { id: req.params.id }},)
                 .then(() => res.status(200).json({ message: 'Profil modifié !'}))
                 .catch(error => res.status(400).json({ error }))
     })
