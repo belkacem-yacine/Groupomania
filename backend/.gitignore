@@ -3,3 +3,4 @@ images/posts/*
 !images/posts/.gitkeep
 images/profils/*
 !images/profils/.gitkeep
+!images/profils/random-user.png

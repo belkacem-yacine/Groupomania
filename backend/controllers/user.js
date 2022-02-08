@@ -4,7 +4,6 @@ const db = require('../models');
 const fs = require('fs');
 
 exports.signup = (req, res, next) => {
-    console.log(req.body)
     const userObject = req.file ? 
     {
         ...JSON.parse(req.body.user),
@@ -15,7 +14,7 @@ exports.signup = (req, res, next) => {
         .then(
             user => {
                 if(!user) {
-                   bcrypt.hash(userObject.password, 10) // code de création du compte
+                   bcrypt.hash(userObject.password, 10)
                     .then(hash => {
                         userObject.password = hash;
                         db.User.create({
@@ -26,6 +25,7 @@ exports.signup = (req, res, next) => {
                     })
                     .catch(error => res.status(500).json({ error: 'erreur serveur' })); 
                 } else {
+                    fs.unlink(`images/profils/${req.file.filename}`, () => {});
                     return res.status (400).json({error: 'Email déjà utilisé'})
                 }
             } 
@@ -74,11 +74,10 @@ exports.modifyUser = (req, res, next) => {
     } : { ...JSON.parse(req.body.user)};
     db.User.findOne({ where : { id: req.params.id }})
     .then( user => {
-        const filename = user.image_url.split('/images/profils/')[1] //entre crochet le 1 cest pour acceder a un tableau 
+        /*const filename = user.image_url.split('/images/profils/')[1] //entre crochet le 1 cest pour acceder a un tableau 
         if(req.file) {
-            fs.unlink(`images/profils/${filename}`, /*() => {
-            }*/); // si ca marche pas decommenter ici
-          }   
+            fs.unlink(`images/profils/${filename}`);
+          }   */
             db.User.updateOne({ where : { id: req.params.id }}, { ...userObject })
                 .then(() => res.status(200).json({ message: 'Profil modifié !'}))
                 .catch(error => res.status(400).json({ error }))
