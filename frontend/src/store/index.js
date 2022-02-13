@@ -3,7 +3,7 @@ import { createStore } from 'vuex'
 const axios = require('axios');
 
 const instance = axios.create({
-  baseURL: 'http://localhost:3000/api/auth/'
+  baseURL: 'http://localhost:3000/api/'
 });
 
 let user = localStorage.getItem('user');
@@ -31,6 +31,12 @@ const store = createStore({
     userInfos: {
 
     },
+    postInfos: {
+
+    },
+    postsInfos: [
+
+    ]
   },
   mutations: {
     LOG_USER: function (state, user) {
@@ -48,28 +54,31 @@ const store = createStore({
       }
       localStorage.removeItem('user');
     },
-    MODIFY_USER_INFOS: function (state) {
+    /*MODIFY_USER_INFOS: function (state) {
       state.userInfos = {
         ...state.userInfos,
         lastName: '',
         firstName: '',
         profil_image: '',
       }
-    },
+    },*/
     DESABLED: function(state) {
       state.userInfos = {
         ...state.userInfos,
         enabled: 0,
       }
+    },
+    POST_INFOS: function(state, postInfos) {
+      state.postInfos = postInfos;
     }
   },
   actions: { 
     login: ({commit}, userInfos) => {
-      return new Promise((resolve, reject) =>{
-        instance.post('/login', userInfos)
+      return new Promise((resolve, reject) => {
+        instance.post('/auth/login', userInfos)
         .then(function(response) {
           commit('LOG_USER', response.data);
-          resolve(response); 
+          resolve(response);
         })
         .catch(function(error) {
           reject(error);
@@ -77,10 +86,9 @@ const store = createStore({
       })  
     },
     signup: ({commit}, userInfos) => {
-      console.log(userInfos)
-      return new Promise((resolve, reject) =>{
+      return new Promise((resolve, reject) => {
         commit;
-        instance.post('/signup', userInfos)
+        instance.post('/auth/signup', userInfos)
         .then(function(response) {
           resolve(response);
         })
@@ -90,36 +98,52 @@ const store = createStore({
       })  
     },
     getUserInfos: ({commit}, userId) => {
-      instance.get('/' + userId )
-        .then(function(response) {
-          commit('USER_INFOS', response.data);
-        })
-        .catch(function() {
-        });
+      return new Promise((resolve, reject) => {
+        instance.get('/auth/' + userId )
+          .then(function(response) {
+            commit('USER_INFOS', response.data);
+            resolve(response);
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      }) 
     },
     modifyUserInfos: ({commit}, user) => {
-      instance.put('/modifyUser/' + user.userId, user.userAllInfos)
-        .then(function(response) {
-          commit('MODIFY_USER_INFOS', response.data)
-        })
-        .catch(function() {
-        });
+      return new Promise((resolve, reject) => {
+        instance.put('/auth/modifyUser/' + user.userId, user.userAllInfos)
+          .then(function(response) {
+            commit('MODIFY_USER_INFOS', response.data);
+            resolve(response);
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      })
     },
     desabledUser: ({commit}, userId) => {
-      instance.put('/deleteUser/' + userId)
-      .then(function(response) {
-        commit('DESABLED', response.data)
-      })
-      .catch(function() {
-      });
+      return new Promise((resolve, reject) => {
+        instance.put('/auth/deleteUser/' + userId)
+          .then(function(response) {
+            commit('DESABLED', response.data);
+            resolve(response);
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      }) 
     },
     createPost: ({commit}, postInfos) => {
-      instance.post('/createPost/'+ postInfos)
-      .then(function(response) {
-        commit(response.data)
+      return new Promise((resolve, reject) => {
+        instance.post('/post/createPost', postInfos)
+          .then(function(response) {
+            commit('POST_INFOS', response.data);
+            resolve(response);
+          })
+          .catch(function(error) {
+            reject(error);
+          });
       })
-      .catch(function() {
-      });
     }
   },
   modules: {

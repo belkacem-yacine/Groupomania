@@ -23,14 +23,15 @@ import {mapState} from 'vuex'
 export default {
     name: 'Profile',
     mounted: function() {
-        if(this.$store.state.user.userId == -1) {
+        if(this.userToken.userId == -1) {
             this.$router.push('/');
             return ;
         }
-        this.$store.dispatch('getUserInfos', this.$store.state.user.userId);
+        this.$store.dispatch('getUserInfos', this.userToken.userId);
     },
     computed: {
         ...mapState({ 
+            userToken: 'user',
             user: 'userInfos',
         })
     },
@@ -41,7 +42,7 @@ export default {
         },
         desabledUser: function() {
             const self = this
-            this.$store.dispatch('desabledUser', this.$store.state.user.userId)
+            this.$store.dispatch('desabledUser', this.userToken.userId)
             .then(function() {
                 self.logout()
             }, function(error) {

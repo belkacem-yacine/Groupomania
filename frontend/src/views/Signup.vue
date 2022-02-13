@@ -3,11 +3,11 @@
         <h1 class="card__title">Inscription</h1>
         <p class="card__subtitle">Tu as déjà un compte? <router-link to="/login">Connecte toi</router-link></p>
         <div class="form-row">
-            <input class="form-row__input" v-model="state.input.lastName" type="text" placeholder="Nom" required/>
+            <input class="form-row__input" v-model="state.input.lastName" type="text" placeholder="Nom"/>
             <span v-if="v$.input.lastName.$error">
                 {{ v$.input.lastName.$errors[0].$message }}
             </span>
-            <input class="form-row__input" v-model="state.input.firstName" type="text" placeholder="Prénom" required/>
+            <input class="form-row__input" v-model="state.input.firstName" type="text" placeholder="Prénom"/>
             <span v-if="v$.input.firstName.$error">
                 {{ v$.input.firstName.$errors[0].$message }}
             </span>
@@ -18,19 +18,19 @@
             <img class="profil_card__logo" ref="filePreview" alt="" src="">
         </div>
         <div class="form-row">
-            <input class="form-row__input" v-model="state.input.email" type="email" placeholder="Email" required/>
+            <input class="form-row__input" v-model="state.input.email" type="email" placeholder="Email"/>
             <span v-if="v$.input.email.$error">
                 {{ v$.input.email.$errors[0].$message }}
             </span>
         </div>
         <div class="form-row">
-            <input class="form-row__input" v-model="state.input.password.password" type="password" placeholder="Mot de passe" required/>
+            <input class="form-row__input" v-model="state.input.password.password" type="password" placeholder="Mot de passe"/>
             <span v-if="v$.input.password.password.$error">
                 {{ v$.input.password.password.$errors[0].$message }}
             </span>
         </div>
         <div class="form-row">
-            <input class="form-row__input" v-model="state.input.password.confirm" type="password" placeholder="Confirmation du mot de passe" required/>
+            <input class="form-row__input" v-model="state.input.password.confirm" type="password" placeholder="Confirmation du mot de passe"/>
             <span v-if="v$.input.password.confirm.$error">
                 {{ v$.input.password.confirm.$errors[0].$message }}
             </span>

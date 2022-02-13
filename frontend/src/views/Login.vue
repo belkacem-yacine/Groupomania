@@ -3,13 +3,13 @@
         <h1 class="card__title">Connecte toi à ton compte groupomania</h1>
         <p class="card__subtitle">Tu n'as pas encore de compte?  <router-link to="/">Inscris toi</router-link></p>
         <div class="form-row">
-            <input class="form-row__input" v-model="state.input.email" type="email" placeholder="Email" required/>
+            <input class="form-row__input" v-model="state.input.email" type="email" placeholder="Email"/>
             <span v-if="v$.input.email.$error">
                 {{ v$.input.email.$errors[0].$message }}
             </span>
         </div>
         <div class="form-row">
-            <input class="form-row__input" v-model="state.input.password" type="password" placeholder="Mot de passe" required/>
+            <input class="form-row__input" v-model="state.input.password" type="password" placeholder="Mot de passe"/>
             <span v-if="v$.input.password.$error">
                 {{ v$.input.password.$errors[0].$message }}
             </span>

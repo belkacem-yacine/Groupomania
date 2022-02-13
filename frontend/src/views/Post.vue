@@ -6,7 +6,7 @@
         <p> {{user.firstName}} {{user.lastName}}</p>
       </div>
       <label for="post">Envoyer une publication</label>
-      <textarea name="post" id="post" cols="30" rows="10"></textarea>
+      <textarea name="post" id="post" cols="30" rows="10" v-model="post"></textarea>
       <div>
         <input
           style="display: none"
@@ -54,7 +54,10 @@ export default {
           const self = this;
           const fd = new FormData();
           fd.append('post_image', this.post_image);
-          let post = this.post;
+          console.log(this.post)
+          let post = {
+              post: this.post
+              };
           fd.append('post', JSON.stringify(post));
           this.$store.dispatch('createPost', fd)
             .then(function() {
