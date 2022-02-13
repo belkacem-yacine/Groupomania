@@ -16,6 +16,8 @@ exports.createPost = (req, res, next) => {
     
 }
 
+//exports.getAllPost = 
+
 exports.getOnePost = (req, res, next) => {
     db.Post.findOne({ where: { id: req.params.id } }) // je sais pas si je dois utiliser req.body ou .params
         .then(user => res.status(200).json(user))

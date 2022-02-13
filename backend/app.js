@@ -5,6 +5,7 @@ const cors = require('cors');
 //INCLUDES 
 
 const userRoutes = require('./routes/user');
+const postRoutes = require('./routes/post');
 
 
 const app = express ();
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 //USE ROUTES
 
 app.use('/api/auth', userRoutes);
+app.use('/api/post', postRoutes);
 
 //route de test
 app.get("/", (req, res) => {
