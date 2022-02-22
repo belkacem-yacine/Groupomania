@@ -16,11 +16,22 @@ exports.createPost = (req, res, next) => {
     
 }
 
-//exports.getAllPost = 
+exports.getAllPost = (req, res, next) => {
+    db.Post.findAll({
+        order: [
+            ['createdAt', 'DESC']
+        ],
+        include: [
+          { model: db.User }
+        ]
+    })
+        .then(posts => res.status(200).json(posts))
+        .catch(error => res.status(404).json({ error }));
+};
 
 exports.getOnePost = (req, res, next) => {
-    db.Post.findOne({ where: { id: req.params.id } }) // je sais pas si je dois utiliser req.body ou .params
-        .then(user => res.status(200).json(user))
+    db.Post.findOne({ where: { id: req.params.id } })
+        .then(post => res.status(200).json(post))
         .catch(error => res.status(404).json({ error }));
 };
 
