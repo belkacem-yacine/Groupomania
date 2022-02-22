@@ -70,7 +70,10 @@ const store = createStore({
     },
     POST_INFOS: function(state, postInfos) {
       state.postInfos = postInfos;
-    }
+    },
+    POSTS_INFOS: function(state, postsInfos) {
+      state.postsInfos = postsInfos;
+    },
   },
   actions: { 
     login: ({commit}, userInfos) => {
@@ -144,7 +147,20 @@ const store = createStore({
             reject(error);
           });
       })
-    }
+    },
+    getPostsInfos: ({commit}) => {
+      return new Promise((resolve, reject) => {
+        instance.get('/post/')
+          .then(function(response) {
+            commit('POSTS_INFOS', response.data);
+            resolve(response);
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      }) 
+    },
+
   },
   modules: {
   }

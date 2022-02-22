@@ -61,7 +61,7 @@ export default {
         },
     mounted: function () {
         if(this.$store.state.user.userId != -1) {
-            this.$router.push('/profile');
+            this.$router.push('/post');
             return ;
         }
     },
@@ -73,13 +73,12 @@ export default {
                 this.$store.dispatch('login', {
                     email: this.state.input.email,
                     password: this.state.input.password,
-            }).then(function() {
-                self.$router.push('/profile');
-            }, function(error) {
-                self.error = error.response.data.error;
-            })
-        }
-     
+                }).then(function() {
+                    self.$router.push('/post');
+                }, function(error) {
+                    self.error = error.response.data.error;
+                })
+            }
         },
     }
 }
