@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const db = require('../models');
 const fs = require('fs');
+const dbConfig = require('../config/db.config');
 
 exports.signup = (req, res, next) => {
     const userObject = req.file ? 
@@ -74,6 +75,9 @@ exports.modifyUser = (req, res, next) => {
     } : { ...JSON.parse(req.body.user)};
     db.User.findOne({ where : { id: req.params.id }})
     .then( user => {
+        if((userObject.admin == true || userObject.admin == "true") && userObject.adminPassword != dbConfig.ADMIN_PASSWORD) {
+            return res.status(400).json({ error : 'Mot de passe administrateur incorrect !'});
+        } else {
         const filename = user.image_url.split('/images/profils/')[1]; //entre crochet le 1 cest pour acceder a un tableau 
         if(req.file) {
             fs.unlink(`images/profils/${filename}`, () => {});
@@ -81,6 +85,7 @@ exports.modifyUser = (req, res, next) => {
             db.User.update( { ...userObject }, { where : { id: req.params.id }},)
                 .then(() => res.status(200).json({ message: 'Profil modifié !'}))
                 .catch(error => res.status(400).json({ error }))
+        }
     })
     .catch(error => res.status(500).json({ error }));
 };

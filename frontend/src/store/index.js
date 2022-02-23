@@ -116,7 +116,7 @@ const store = createStore({
       return new Promise((resolve, reject) => {
         instance.put('/auth/modifyUser/' + user.userId, user.userAllInfos)
           .then(function(response) {
-            commit('MODIFY_USER_INFOS', response.data);
+            commit('USER_INFOS', response.data);
             resolve(response);
           })
           .catch(function(error) {

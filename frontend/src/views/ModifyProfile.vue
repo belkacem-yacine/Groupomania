@@ -29,7 +29,8 @@
         <div>
             <input style="display:none" type="file" accept="image/*" @change="onFilePicked" ref="fileInput">
             <button @click.prevent="$refs.fileInput.click()">Choisir une photo de profil</button>
-            <img class="profil_card__logo" ref="filePreview" alt="" src="">
+            <img class="profil_card__logo" ref="photoProfil" src="user.image_url" alt="photo de profil">
+            <img class="profil_card__logo" ref="filePreview" alt="photo de profil" src="">
         </div>
         
         <div>
@@ -46,7 +47,7 @@
 
 import { mapState } from "vuex";
 import useValidate from '@vuelidate/core'
-import { required, /*requiredIf, helpers*/} from '@vuelidate/validators'
+import { required, requiredIf, helpers} from '@vuelidate/validators'
 import { reactive, computed } from 'vue'
 
 export default {
@@ -65,10 +66,10 @@ export default {
         const rules = computed(() => {
             return {
                 input: {
-                        lastName: { required },
-                        firstName: { required },
-                        admin: { required }, 
-                        adminPassword: {}
+                        lastName: { required: helpers.withMessage('Veuillez renseigner ce champs !', required) },
+                        firstName: { required: helpers.withMessage('Veuillez renseigner ce champs !', required) },
+                        admin: { required: helpers.withMessage('Veuillez renseigner ce champs !', required) }, 
+                        adminPassword: { required: helpers.withMessage('Veuillez renseigner ce champs !', requiredIf(state.input.admin == "true" || state.input.admin == true)) }
                 },
                 profil_image: {},
             }
@@ -87,6 +88,7 @@ export default {
             }
         },
     mounted: function () {
+        this.$refs.filePreview.style.display = "none";
         const self = this
         this.$store.dispatch('getUserInfos', this.userToken.userId)
         .then(function() {
@@ -125,6 +127,7 @@ export default {
                     lastName: this.state.input.lastName,
                     firstName: this.state.input.firstName,
                     admin: this.state.input.admin,
+                    adminPassword: this.state.input.adminPassword
                 }
                 fd.append('user', JSON.stringify(user));
                 this.$store.dispatch('modifyUserInfos',{userAllInfos: fd, userId: this.userToken.userId})
@@ -140,6 +143,8 @@ export default {
             let reader = new FileReader();
             reader.onload = () => {
             this.$refs.filePreview.src = reader.result;
+            this.$refs.filePreview.style.display = "";
+            this.$refs.photoProfil.style.display = "none";
             }
       reader.readAsDataURL(this.state.profil_image);
         },
