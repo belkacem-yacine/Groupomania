@@ -1,5 +1,6 @@
 <template>
     <div id="card">
+        <NavLink />
         <h1 class="card__title">Modification de vos informations</h1>
         <div class="form-row">
             <input class="form-row__input" v-model="state.input.lastName" type="text" placeholder="Nom"/>
@@ -11,25 +12,12 @@
                 {{ v$.input.firstName.$errors[0].$message }}
             </span>
         </div>
-        <p>Etes-vous administrateur</p>
-        <div>
-        <input type="radio" id="yes" name="admin" value="true" v-model="state.input.admin">
-        <label for="yes">Oui</label>
-        </div>
-        <div>
-        <input type="radio" id="no" name="admin" value="false" v-model="state.input.admin"> 
-        <label for="no">Non</label>
-        </div>
-        <div v-if="showAdminPassword">
-            <input class="form-row__input" v-model="state.input.adminPassword" type="password" placeholder="Mot de passe administrateur"/>
-            <span v-if="v$.input.adminPassword.$error">
-                {{ v$.input.adminPassword.$errors[0].$message }}
-            </span>
-        </div>
+
+
         <div>
             <input style="display:none" type="file" accept="image/*" @change="onFilePicked" ref="fileInput">
             <button @click.prevent="$refs.fileInput.click()">Choisir une photo de profil</button>
-            <img class="profil_card__logo" ref="photoProfil" src="user.image_url" alt="photo de profil">
+            <img class="profil_card__logo" ref="photoProfil"  alt="photo de profil" :src="user.image_url">
             <img class="profil_card__logo" ref="filePreview" alt="photo de profil" src="">
         </div>
         
@@ -47,18 +35,20 @@
 
 import { mapState } from "vuex";
 import useValidate from '@vuelidate/core'
-import { required, requiredIf, helpers} from '@vuelidate/validators'
+import { required, helpers} from '@vuelidate/validators'
 import { reactive, computed } from 'vue'
+import NavLink from '../components/NavLink.vue'
 
 export default {
     name: 'ModifyProfile',
+    components: {
+		NavLink
+	},
     setup () {
         const state = reactive({
             input: {
                 lastName: '',
                 firstName: '',
-                admin:'', 
-                adminPassword:''
             },
             profil_image: '',        
         })
@@ -66,10 +56,8 @@ export default {
         const rules = computed(() => {
             return {
                 input: {
-                        lastName: { required: helpers.withMessage('Veuillez renseigner ce champs !', required) },
-                        firstName: { required: helpers.withMessage('Veuillez renseigner ce champs !', required) },
-                        admin: { required: helpers.withMessage('Veuillez renseigner ce champs !', required) }, 
-                        adminPassword: { required: helpers.withMessage('Veuillez renseigner ce champs !', requiredIf(state.input.admin == "true" || state.input.admin == true)) }
+                        lastName: { required: helpers.withMessage('Veuillez renseigner ce champ !', required) },
+                        firstName: { required: helpers.withMessage('Veuillez renseigner ce champ !', required) }, 
                 },
                 profil_image: {},
             }
@@ -94,23 +82,13 @@ export default {
         .then(function() {
           self.state.input.firstName = self.user.firstName;
           self.state.input.lastName = self.user.lastName;
-          self.state.input.admin = self.user.admin;
+          
+          //self.state.input.admin = self.user.admin; je sais pas si cest utile de le mettre dans la signup vue
         }, function() {
             self.logout();
         })
     },
     computed: {
-        showAdminPassword: function() {
-            let admin = 0;
-            if(this.state.input.admin == 'true' || this.state.input.admin == true) {
-                admin = 1;
-            } 
-            if(admin == 0) {
-                return false
-            } else {
-                return true;
-            }
-        },
         ...mapState({ 
             userToken: 'user',
             user: 'userInfos',
@@ -125,9 +103,7 @@ export default {
                 fd.append('profil_image', this.state.profil_image);
                 let user = {
                     lastName: this.state.input.lastName,
-                    firstName: this.state.input.firstName,
-                    admin: this.state.input.admin,
-                    adminPassword: this.state.input.adminPassword
+                    firstName: this.state.input.firstName, 
                 }
                 fd.append('user', JSON.stringify(user));
                 this.$store.dispatch('modifyUserInfos',{userAllInfos: fd, userId: this.userToken.userId})

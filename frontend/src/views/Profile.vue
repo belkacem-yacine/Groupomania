@@ -1,5 +1,6 @@
 <template>
     <div class="card">
+        <NavLink />
         <!--<router-link to="/post"><font-awesome-icon icon="fa-solid fa-arrow-left" /></router-link> -->
         <h1 class="card__title">Espace perso</h1>
         <div>
@@ -22,8 +23,12 @@
 <script>
 //mettre une fleche dans le profil et la modif profile pour un retour arriere 
 import {mapState} from 'vuex'
+import NavLink from '../components/NavLink.vue'
 export default {
     name: 'Profile',
+    components: {
+		NavLink
+	},
     mounted: function() {
         if(this.userToken.userId == -1) {
             this.$router.push('/');
