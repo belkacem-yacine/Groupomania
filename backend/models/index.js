@@ -17,6 +17,7 @@ const db = {};
 
 db.User = require("./user.models")(sequelize, Sequelize);
 db.Post = require('./post.models')(sequelize, Sequelize);
+db.Comment = require('./comment.models')(sequelize, Sequelize)
 
 Object.keys(db).forEach(modelName => {
     if (db[modelName].associate) {
