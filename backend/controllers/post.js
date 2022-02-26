@@ -55,9 +55,16 @@ exports.modifyPost = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 };
 
-exports.deletPost = (req, res, next) => {
-    db.Post.delete(
-
+exports.deletePost = (req, res, next) => {
+    db.Post.update(
+        {
+            enabled: 0
+        },
+        {
+            where: {
+                id: req.params.id,
+            },
+        }
     )
                 .then(() => res.status(200).json({ message: 'Publication supprimée !'}))
                 .catch(error => res.status(400).json({ error }))

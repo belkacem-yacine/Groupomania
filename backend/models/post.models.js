@@ -7,6 +7,10 @@ module.exports = (sequelize, Sequelize) => {
         image_url: {
           type: Sequelize.STRING(255),
         },
+        enabled: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: true
+          },
     },
     {
         freezeTableName: true
@@ -17,6 +21,10 @@ module.exports = (sequelize, Sequelize) => {
             foreignKey: {
                 allowNull: false
             }
+        });
+
+        Post.hasMany(models.Comment, {
+            onDelete: "cascade" 
         });
     };
     return Post;
