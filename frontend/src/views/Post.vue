@@ -1,17 +1,7 @@
 <template>
   <div id="card">
-    <div class="header">
-      <p class="header__logo">groupomania</p>
-      <nav class="header__nav">
-        <p> {{user.firstName}} {{user.lastName}}</p>
-        <img :src="user.image_url" alt="" class="header__img">
-        <router-link to="/profile">Votre profil</router-link>
-        <button @click="logout()" class="button">
-                  Déconnexion
-        </button>
-      </nav>
-    </div>
-    
+    <NavLink />
+
     <div class="post">
       <label class="post__title" for="post">Créer une publication</label>
       <div class="post__zone">
@@ -29,36 +19,77 @@
       </div> 
       <img class="post__img" ref="filePreview" alt="" src="" />
       <button @click="createPost()">Envoyer la publication</button>
+      <span v-if="v$.input.post.$error">
+        {{ v$.input.post.$errors[0].$message }}
+      </span>
     </div>
     <div>
         <li v-for="post in posts" v-bind:key="post">
-          <img src="" alt=""> <!--  JE N ARRIVE PAS A ACCEDER AUX INFOS DU USER
-            img de profil de celui qui a fait le post -->
-          <!-- <p> {{post.user.firstName}} {{post.user.lastName}}</p> -->
-          <p> Publié le {{post.createdAt}}</p>
+          <img :src="post.user.image_url" alt="photo de profil" style="width:100px;"> 
+          <p> {{post.user.firstName}} {{post.user.lastName}}</p>
+          <p> Publié le {{formatDate(post.createdAt)}}</p>
           <p>{{post.post}}</p>
-          <p> {{post.image_url}} </p>
-        {{post}}
+          <img :src="post.image_url" alt="Photo de la publication">
         <div>commentaire <!-- utiliser v-show et @click pour faire apparaitre ou non les commentaires --></div>
+        <button><router-link to="/modifyPost">Modifiez votre publication</router-link></button>
+        <button @click="desabledPost()">
+            Supprimer
+        </button>
       </li>
     </div>
   </div>
 </template>
 
 <script>
+import NavLink from '../components/NavLink.vue'
+import useValidate from "@vuelidate/core";
+import { required, helpers } from "@vuelidate/validators";
+import { reactive, computed } from "vue";
 import { mapState } from "vuex";
+import moment from 'moment';
 
 export default {
     name: "Post",
+    components: {
+      NavLink
+    },
+    setup() {
+    const state = reactive({
+      input: {
+        post: "",
+      },
+      post_image:"",
+    });
+
+    const rules = computed(() => {
+      return {
+        input: {
+          post: {
+            required: helpers.withMessage(
+                "Veuillez renseigner ce champ !",
+                required
+            ),
+          },
+        },
+        post_image:{},
+      };
+    });
+
+    const v$ = useValidate(rules, state);
+
+    return {
+      state,
+      v$,
+    };
+  },
     data: function () {
         return {
-            post: '',
-            post_image:'',
-        }
+            error:"",
+        };
     },
     mounted: function () {
-        this.$store.dispatch('getUserInfos', this.$store.state.user.userId);
-        this.$store.dispatch('getPostsInfos');
+      this.$store.dispatch('getUserInfos', this.$store.state.user.userId);
+      this.$store.dispatch('getPostsInfos');
     },
     computed: {
         ...mapState({ 
@@ -67,26 +98,23 @@ export default {
         })
     },
     methods: {
-        logout: function() {
-            this.$store.commit('LOGOUT');
-            this.$router.push('/');
-        },
         createPost: function () {
-            const self = this;
-            const fd = new FormData();
-            fd.append('post_image', this.post_image);
-            console.log(this.post)
-            let post = {
-                post: this.post,
-                userId: this.user.id
-                };
-            fd.append('post', JSON.stringify(post));
-            this.$store.dispatch('createPost', fd)
-                .then(function() {
-                    //mettre ce qui doit se passer une fois que la fonction est réalisée
-                }, function(error) {
-                    self.error = error.response.data.error;
-                })
+          this.v$.$validate();
+          const self = this;
+          const fd = new FormData();
+          fd.append('post_image', this.post_image);
+          console.log(this.post)
+          let post = {
+              post: this.post,
+              userId: this.user.id
+              };
+          fd.append('post', JSON.stringify(post));
+          this.$store.dispatch('createPost', fd)
+              .then(function() {
+                  //mettre ce qui doit se passer une fois que la fonction est réalisée 
+              }, function(error) {
+                  self.error = error.response.data.error;
+              })
         },
         onFilePicked: function () {
             this.post_image = event.target.files[0];
@@ -96,7 +124,18 @@ export default {
             }
         reader.readAsDataURL(this.post_image);
         },
-    },
+        formatDate(date) {
+            return moment(date).format('DD/MM/YYYY hh:mm')
+        },
+        desabledPost: function() {
+            const self = this
+            this.$store.dispatch('desabledPost', this.post)  // je ne sais pas quoi mettre ici pour recupérer le postId
+            .then(function() {
+            }, function(error) {
+                self.error = error.response.data.error; // etape 3
+            })
+        }
+    }
 };
 </script>
 
@@ -104,12 +143,18 @@ export default {
 .header {
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
 
     &__nav{
       display: flex;
-      flex-direction: row;
       align-items: center;
       justify-content: space-between;
+    }
+
+    &__logo{
+      width: 250px;
+      height: auto;
+      align-self: center; 
     }
 
     &__img{
