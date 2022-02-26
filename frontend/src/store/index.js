@@ -54,14 +54,6 @@ const store = createStore({
       }
       localStorage.removeItem('user');
     },
-    /*MODIFY_USER_INFOS: function (state) {
-      state.userInfos = {
-        ...state.userInfos,
-        lastName: '',
-        firstName: '',
-        profil_image: '',
-      }
-    },*/
     DESABLED: function(state) {
       state.userInfos = {
         ...state.userInfos,
@@ -73,6 +65,12 @@ const store = createStore({
     },
     POSTS_INFOS: function(state, postsInfos) {
       state.postsInfos = postsInfos;
+    },
+    DESABLED_POST: function(state) {
+      state.postInfos = {
+        ...state.postInfos,
+        enabled: 0,
+      }
     },
   },
   actions: { 
@@ -148,11 +146,47 @@ const store = createStore({
           });
       })
     },
+    /*getPostInfos: ({commit}, postId) => {
+      return new Promise((resolve, reject) => {
+        instance.get('/post/' + postId )
+          .then(function(response) {
+            commit('POST_INFOS', response.data);
+            resolve(response);
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      }) 
+    },*/
     getPostsInfos: ({commit}) => {
       return new Promise((resolve, reject) => {
         instance.get('/post/')
           .then(function(response) {
             commit('POSTS_INFOS', response.data);
+            resolve(response);
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      }) 
+    },
+    /*modifyPostInfos: ({commit}, post) => {
+      return new Promise((resolve, reject) => {
+        instance.put('/post/modifyPost/' + post.postId, post.postAllInfos)
+          .then(function(response) {
+            commit('POST_INFOS', response.data);
+            resolve(response);
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      })
+    },*/
+    desabledPost: ({commit}, postId) => {
+      return new Promise((resolve, reject) => {
+        instance.put('/post/deletePost/' + postId)
+          .then(function(response) {
+            commit('DESABLED_POST', response.data);
             resolve(response);
           })
           .catch(function(error) {
