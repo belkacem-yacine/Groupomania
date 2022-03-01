@@ -2,7 +2,6 @@ const db = require('../models');
 const fs = require('fs');
 
 exports.createPost = (req, res, next) => {
-    console.log(req.body)
     const postObject = req.file ? 
     {
         ...JSON.parse(req.body.post),
@@ -18,6 +17,9 @@ exports.createPost = (req, res, next) => {
 
 exports.getAllPost = (req, res, next) => {
     db.Post.findAll({
+        where: {
+             enabled: 1
+        },
         order: [
             ['createdAt', 'DESC']
         ],
@@ -56,13 +58,14 @@ exports.modifyPost = (req, res, next) => {
 };
 
 exports.deletePost = (req, res, next) => {
-    db.Post.update(
+    console.log(req.params.id)
+db.Post.update(
         {
             enabled: 0
         },
         {
             where: {
-                id: req.params.id,
+                id: req.params.id
             },
         }
     )

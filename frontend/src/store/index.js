@@ -66,12 +66,6 @@ const store = createStore({
     POSTS_INFOS: function(state, postsInfos) {
       state.postsInfos = postsInfos;
     },
-    DESABLED_POST: function(state) {
-      state.postInfos = {
-        ...state.postInfos,
-        enabled: 0,
-      }
-    },
   },
   actions: { 
     login: ({commit}, userInfos) => {
@@ -182,11 +176,10 @@ const store = createStore({
           });
       })
     },*/
-    desabledPost: ({commit}, postId) => {
+    desabledPost: (postId) => {
       return new Promise((resolve, reject) => {
         instance.put('/post/deletePost/' + postId)
           .then(function(response) {
-            commit('DESABLED_POST', response.data);
             resolve(response);
           })
           .catch(function(error) {

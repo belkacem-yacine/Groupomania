@@ -32,7 +32,7 @@
           <img :src="post.image_url" alt="Photo de la publication">
         <div>commentaire <!-- utiliser v-show et @click pour faire apparaitre ou non les commentaires --></div>
         <button><router-link to="/modifyPost">Modifiez votre publication</router-link></button>
-        <button @click="desabledPost()">
+        <button @click="desabledPost(post.id)">
             Supprimer
         </button>
       </li>
@@ -111,7 +111,7 @@ export default {
           fd.append('post', JSON.stringify(post));
           this.$store.dispatch('createPost', fd)
               .then(function() {
-                  //mettre ce qui doit se passer une fois que la fonction est réalisée 
+                  self.refreshData()
               }, function(error) {
                   self.error = error.response.data.error;
               })
@@ -127,10 +127,19 @@ export default {
         formatDate(date) {
             return moment(date).format('DD/MM/YYYY hh:mm')
         },
-        desabledPost: function() {
+        desabledPost: function(postId) {
             const self = this
-            this.$store.dispatch('desabledPost', this.post)  // je ne sais pas quoi mettre ici pour recupérer le postId
+            this.$store.dispatch('desabledPost', postId)
             .then(function() {
+              self.refreshData()
+            }, function(error) {
+                self.error = error.response.data.error; // etape 3
+            })
+        },
+        refreshData: function() {
+          const self = this
+          this.$store.dispatch('getPostsInfos')
+          .then(function() {
             }, function(error) {
                 self.error = error.response.data.error; // etape 3
             })
