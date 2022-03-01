@@ -4,6 +4,7 @@ import Login from '../views/Login.vue'
 import Profile from '../views/Profile.vue'
 import UpdateProfile from '../views/ModifyProfile.vue'
 import Post from '../views/Post.vue'
+import UpdatePost from '../views/ModifyPost.vue'
 
 const routes = [
   {
@@ -30,7 +31,12 @@ const routes = [
     path:'/post',
     name:'Post',
     component: Post
-  }
+  },
+  {
+    path:'/modifyPost',
+    name:'ModifyPost',
+    component: UpdatePost
+  },
 ]
 
 const router = createRouter({
