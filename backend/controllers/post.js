@@ -38,7 +38,7 @@ exports.getOnePost = (req, res, next) => {
 };
 
 exports.modifyPost = (req, res, next) => {
-    const userObject = req.file ? 
+    const postObject = req.file ? 
     {
         ...JSON.parse(req.body.post),
         image_url: `${req.protocol}://${req.get('host')}/images/posts/${req.file.filename}`,
@@ -50,7 +50,7 @@ exports.modifyPost = (req, res, next) => {
             fs.unlink(`images/posts/${filename}`, () => {
             });
           }   
-            db.Post.updateOne({ where : { id: req.params.id }}, { ...postObject })
+          db.Post.update( { ...postObject }, { where : { id: req.params.id }},)
                 .then(() => res.status(200).json({ message: 'Publication modifiée !'}))
                 .catch(error => res.status(400).json({ error }))
     })

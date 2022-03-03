@@ -14,11 +14,12 @@
                 <button @click.prevent="$refs.fileInput.click()" class="post__zone--button">
                 Inserer une image
                 </button>
-                <textarea class="post__zone--text" name="post" id="post" cols="30" rows="10" v-model="post"></textarea>
+                <textarea class="post__zone--text" name="post" id="post" cols="30" rows="10" v-model="state.input.post"></textarea>
             </div> 
-            <img class="post__img" ref="filePreview" alt="" src="" />
+            <img :src="post.image_url" class="profil_card__logo" ref="photoPost"  alt="photo de publication" >
+            <img src="" class="post__img" ref="filePreview" alt=""  />
         </div>
-        <button @click="modifyPost()">Enregistrer la modification</button>
+        <button @click="modifyPost(post.id)">Enregistrer la modification</button>
             <span v-if="v$.input.post.$error">
                 {{ v$.input.post.$errors[0].$message }}
             </span>
@@ -77,16 +78,16 @@ export default {
     mounted: function () {
         this.$refs.filePreview.style.display = "none";
         const self = this
-        this.$store.dispatch('getPostInfos', this.post.postId)
+        const urlId = this.$route.params.postId;
+        this.$store.dispatch('getPostInfos', urlId)
         .then(function() {
-          self.state.input.post = self.state.input.post.post;
+          self.state.input.post = self.post.post;
         }, function() {
             self.logout();
         })
     },
     computed: {
         ...mapState({ 
-            postToken: 'post',
             post: 'postInfos',
         })
     },
@@ -100,17 +101,17 @@ export default {
                 let post = {
                     post: this.state.input.post, 
                 }
-                fd.append('user', JSON.stringify(post));
-                this.$store.dispatch('modifyPostInfos',{postAllInfos: fd, postId: this.postToken.postId})
+                fd.append('post', JSON.stringify(post));
+                this.$store.dispatch('modifyPostInfos',{postAllInfos: fd, postId: this.post.id })
                 .then(function() {
-                    self.$router.push('/post');
+                    self.$router.push('/posts');
                 }, function(error) {
                     self.error = error.response.data.error;
                 })
             }
         },
         onFilePicked: function () {
-            this.state.profil_image = event.target.files[0];
+            this.state.post_image = event.target.files[0];
             let reader = new FileReader();
             reader.onload = () => {
             this.$refs.filePreview.src = reader.result;

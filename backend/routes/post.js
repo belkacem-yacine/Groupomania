@@ -8,7 +8,7 @@ const postCtrl = require('../controllers/post');
 router.post('/createPost', auth, multer.single('post_image'), postCtrl.createPost);
 router.get('/', auth, postCtrl.getAllPost);
 router.get('/:id', auth, postCtrl.getOnePost);
-router.put('/modifyPost/:id', auth, multer.single('profil_image'), postCtrl.modifyPost);
+router.put('/modifyPost/:id', auth, multer.single('post_image'), postCtrl.modifyPost);
 router.put('/deletePost/:id', auth, postCtrl.deletePost);
 
 module.exports = router
