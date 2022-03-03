@@ -3,7 +3,7 @@ import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
 import Profile from '../views/Profile.vue'
 import UpdateProfile from '../views/ModifyProfile.vue'
-import Post from '../views/Post.vue'
+import Posts from '../views/Posts.vue'
 import UpdatePost from '../views/ModifyPost.vue'
 
 const routes = [
@@ -28,12 +28,12 @@ const routes = [
     component: UpdateProfile
   },
   {
-    path:'/post',
-    name:'Post',
-    component: Post
+    path:'/posts',
+    name:'Posts',
+    component: Posts
   },
   {
-    path:'/modifyPost',
+    path:'/modifyPost/:postId',
     name:'ModifyPost',
     component: UpdatePost
   },

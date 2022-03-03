@@ -245,7 +245,7 @@ export default {
         })
         .then(
           function () {
-            self.$router.push("/post");
+            self.$router.push("/posts");
           },
           function (error) {
             self.error = error.response.data.error; // etape 3
