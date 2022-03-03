@@ -4,6 +4,10 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING(500),
             allowNull: false,
           },
+          enabled: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: true
+          },
     },
     {
         freezeTableName: true
