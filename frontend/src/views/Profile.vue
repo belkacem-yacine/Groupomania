@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <NavLink />
-        <!--<router-link to="/post"><font-awesome-icon icon="fa-solid fa-arrow-left" /></router-link> -->
+        <!--<router-link to="/posts"><font-awesome-icon icon="fa-solid fa-arrow-left" /></router-link> -->
         <h1 class="card__title">Espace perso</h1>
         <div>
             <p class="card__subtitle">Voilà donc qui je suis...</p>
