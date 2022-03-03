@@ -1,10 +1,8 @@
 <template>
+  
   <div id="card">
+    <NavLink />
     <h1 class="card__title">Connecte toi à ton compte groupomania</h1>
-    <p class="card__subtitle">
-      Tu n'as pas encore de compte?
-      <router-link to="/">Inscris toi</router-link>
-    </p>
     <div class="form-row">
       <input
         class="form-row__input"
@@ -33,16 +31,24 @@
       </button>
     </div>
     <span> {{ error }} </span>
+    <p class="card__subtitle">
+      Tu n'as pas encore de compte?
+      <router-link to="/">Inscris toi</router-link>
+    </p>
   </div>
 </template>
 
 <script>
+import NavLink from '../components/NavLink.vue'
 import useValidate from "@vuelidate/core";
 import { required, email, minLength, helpers } from "@vuelidate/validators";
 import { reactive, computed } from "vue";
 
 export default {
   name: "Login",
+  components: {
+      NavLink,
+    },
   setup() {
     const state = reactive({
       input: {
@@ -107,7 +113,7 @@ export default {
           })
           .then(
             function () {
-              self.$router.push("/post");
+              self.$router.push("/posts");
             },
             function (error) {
               self.error = error.response.data.error;

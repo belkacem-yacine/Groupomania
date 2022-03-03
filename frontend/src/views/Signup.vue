@@ -1,118 +1,123 @@
 <template>
   <div id="card">
-    <h1 class="card__title">Inscription</h1>
+    <NavLink />
+
+    <div class="Signup">
+      <h1 class="card__title">Inscription</h1>
+      <div class="form-row">
+        <input
+          class="form-row__input"
+          v-model="state.input.lastName"
+          type="text"
+          placeholder="Nom"
+        />
+        <span v-if="v$.input.lastName.$error">
+          {{ v$.input.lastName.$errors[0].$message }}
+        </span>
+        <input
+          class="form-row__input"
+          v-model="state.input.firstName"
+          type="text"
+          placeholder="Prénom"
+        />
+        <span v-if="v$.input.firstName.$error">
+          {{ v$.input.firstName.$errors[0].$message }}
+        </span>
+      </div>
+      <div>
+        <input
+          style="display: none"
+          type="file"
+          accept="image/*"
+          @change="onFilePicked"
+          ref="fileInput"
+        />
+        <button @click.prevent="$refs.fileInput.click()">
+          Choisir une photo de profil
+        </button>
+        <img class="profil_card__logo" ref="filePreview" alt="" src="" />
+      </div>
+      <div class="form-row">
+        <input
+          class="form-row__input"
+          v-model="state.input.email"
+          type="email"
+          placeholder="Email"
+        />
+        <span v-if="v$.input.email.$error">
+          {{ v$.input.email.$errors[0].$message }}
+        </span>
+      </div>
+      <div class="form-row">
+        <input
+          class="form-row__input"
+          v-model="state.input.password.password"
+          type="password"
+          placeholder="Mot de passe"
+        />
+        <span v-if="v$.input.password.password.$error">
+          {{ v$.input.password.password.$errors[0].$message }}
+        </span>
+      </div>
+      <div class="form-row">
+        <input
+          class="form-row__input"
+          v-model="state.input.password.confirm"
+          type="password"
+          placeholder="Confirmation du mot de passe"
+        />
+        <span v-if="v$.input.password.confirm.$error">
+          {{ v$.input.password.confirm.$errors[0].$message }}
+        </span>
+      </div>
+      <p>Etes-vous administrateur</p>
+      <div>
+        <input
+          type="radio"
+          id="yes"
+          name="admin"
+          value="true"
+          v-model="state.input.admin"
+        />
+        <label for="yes">Oui</label>
+      </div>
+      <div>
+        <input
+          type="radio"
+          id="no"
+          name="admin"
+          value="false"
+          v-model="state.input.admin"
+        />
+        <label for="no">Non</label>
+      </div>
+      <div v-if="showAdminPassword">
+        <input
+          class="form-row__input"
+          v-model="state.input.adminPassword"
+          type="password"
+          placeholder="Mot de passe administrateur"
+        />
+        <span v-if="v$.input.adminPassword.$error">
+          {{ v$.input.adminPassword.$errors[0].$message }}
+        </span>
+      </div>
+      <div>
+        <button @click="signup()" class="button">
+          <span>Créer un compte</span>
+        </button>
+      </div>
+      <span> {{ error }} </span>
+      <!-- etape 1 après le backend -->
+    </div>
     <p class="card__subtitle">
-      Tu as déjà un compte? <router-link to="/login">Connecte toi</router-link>
-    </p>
-    <div class="form-row">
-      <input
-        class="form-row__input"
-        v-model="state.input.lastName"
-        type="text"
-        placeholder="Nom"
-      />
-      <span v-if="v$.input.lastName.$error">
-        {{ v$.input.lastName.$errors[0].$message }}
-      </span>
-      <input
-        class="form-row__input"
-        v-model="state.input.firstName"
-        type="text"
-        placeholder="Prénom"
-      />
-      <span v-if="v$.input.firstName.$error">
-        {{ v$.input.firstName.$errors[0].$message }}
-      </span>
-    </div>
-    <div>
-      <input
-        style="display: none"
-        type="file"
-        accept="image/*"
-        @change="onFilePicked"
-        ref="fileInput"
-      />
-      <button @click.prevent="$refs.fileInput.click()">
-        Choisir une photo de profil
-      </button>
-      <img class="profil_card__logo" ref="filePreview" alt="" src="" />
-    </div>
-    <div class="form-row">
-      <input
-        class="form-row__input"
-        v-model="state.input.email"
-        type="email"
-        placeholder="Email"
-      />
-      <span v-if="v$.input.email.$error">
-        {{ v$.input.email.$errors[0].$message }}
-      </span>
-    </div>
-    <div class="form-row">
-      <input
-        class="form-row__input"
-        v-model="state.input.password.password"
-        type="password"
-        placeholder="Mot de passe"
-      />
-      <span v-if="v$.input.password.password.$error">
-        {{ v$.input.password.password.$errors[0].$message }}
-      </span>
-    </div>
-    <div class="form-row">
-      <input
-        class="form-row__input"
-        v-model="state.input.password.confirm"
-        type="password"
-        placeholder="Confirmation du mot de passe"
-      />
-      <span v-if="v$.input.password.confirm.$error">
-        {{ v$.input.password.confirm.$errors[0].$message }}
-      </span>
-    </div>
-    <p>Etes-vous administrateur</p>
-    <div>
-      <input
-        type="radio"
-        id="yes"
-        name="admin"
-        value="true"
-        v-model="state.input.admin"
-      />
-      <label for="yes">Oui</label>
-    </div>
-    <div>
-      <input
-        type="radio"
-        id="no"
-        name="admin"
-        value="false"
-        v-model="state.input.admin"
-      />
-      <label for="no">Non</label>
-    </div>
-    <div v-if="showAdminPassword">
-      <input
-        class="form-row__input"
-        v-model="state.input.adminPassword"
-        type="password"
-        placeholder="Mot de passe administrateur"
-      />
-      <span v-if="v$.input.adminPassword.$error">
-        {{ v$.input.adminPassword.$errors[0].$message }}
-      </span>
-    </div>
-    <div>
-      <button @click="signup()" class="button">
-        <span>Créer un compte</span>
-      </button>
-    </div>
-    <span> {{ error }} </span>
-    <!-- etape 1 après le backend -->
+        Tu as déjà un compte? <router-link to="/login">Connecte toi</router-link>
+      </p>
   </div>
 </template>
 
 <script>
+import NavLink from '../components/NavLink.vue'
 import useValidate from "@vuelidate/core";
 import {
   required,
@@ -126,6 +131,9 @@ import { reactive, computed } from "vue";
 
 export default {
   name: "Signup",
+  components: {
+      NavLink,
+    },
   setup() {
     const state = reactive({
       input: {
@@ -218,7 +226,7 @@ export default {
   },
   mounted: function () {
     if (this.$store.state.user.userId != -1) {
-      this.$router.push("/post");
+      this.$router.push("/posts");
       return;
     }
   },

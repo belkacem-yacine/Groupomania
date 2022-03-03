@@ -1,6 +1,6 @@
 const db = require('../models');
 const fs = require('fs');
-
+ 
 exports.createPost = (req, res, next) => {
     const postObject = req.file ? 
     {
