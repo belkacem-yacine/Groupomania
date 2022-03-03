@@ -36,7 +36,13 @@ const store = createStore({
     },
     postsInfos: [
 
-    ]
+    ],
+    commentInfos: {
+
+    },
+    commentsInfos: [
+
+    ],
   },
   mutations: {
     LOG_USER: function (state, user) {
@@ -66,8 +72,17 @@ const store = createStore({
     POSTS_INFOS: function(state, postsInfos) {
       state.postsInfos = postsInfos;
     },
+    COMMENT_INFOS: function(state, commentInfos) {
+      state.commentInfos = commentInfos;
+    },
+    COMMENTS_INFOS: function(state, commentsInfos) {
+      state.commentsInfos = commentsInfos;
+    },
   },
   actions: { 
+
+    // POUR L'IDENTIFICATION
+
     login: ({commit}, userInfos) => {
       return new Promise((resolve, reject) => {
         instance.post('/auth/login', userInfos)
@@ -92,6 +107,9 @@ const store = createStore({
         });
       })  
     },
+
+    // POUR UTILISER LES DONNEES UTILISATEURS
+
     getUserInfos: ({commit}, userId) => {
       return new Promise((resolve, reject) => {
         instance.get('/auth/' + userId )
@@ -128,6 +146,9 @@ const store = createStore({
           });
       }) 
     },
+
+    // POUR LES PUBLICATIONS 
+
     createPost: ({commit}, postInfos) => {
       return new Promise((resolve, reject) => {
         instance.post('/post/createPost', postInfos)
@@ -140,7 +161,7 @@ const store = createStore({
           });
       })
     },
-    /*getPostInfos: ({commit}, postId) => {
+    getPostInfos: ({commit}, postId) => {
       return new Promise((resolve, reject) => {
         instance.get('/post/' + postId )
           .then(function(response) {
@@ -151,7 +172,7 @@ const store = createStore({
             reject(error);
           });
       }) 
-    },*/
+    },
     getPostsInfos: ({commit}) => {
       return new Promise((resolve, reject) => {
         instance.get('/post/')
@@ -164,7 +185,7 @@ const store = createStore({
           });
       }) 
     },
-    /*modifyPostInfos: ({commit}, post) => {
+    modifyPostInfos: ({commit}, post) => {
       return new Promise((resolve, reject) => {
         instance.put('/post/modifyPost/' + post.postId, post.postAllInfos)
           .then(function(response) {
@@ -175,11 +196,38 @@ const store = createStore({
             reject(error);
           });
       })
-    },*/
+    },
     desabledPost: (postId) => {
       return new Promise((resolve, reject) => {
         instance.put('/post/deletePost/' + postId)
           .then(function(response) {
+            resolve(response);
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      }) 
+    },
+
+    // POUR LES COMMENTAIRES 
+
+    getCommentInfos: ({commit}, commentId) => {
+      return new Promise((resolve, reject) => {
+        instance.get('/comment/' + commentId )
+          .then(function(response) {
+            commit('COMMENT_INFOS', response.data);
+            resolve(response);
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      }) 
+    },
+    getCommentsInfos: ({commit}) => {
+      return new Promise((resolve, reject) => {
+        instance.get('/comment/')
+          .then(function(response) {
+            commit('COMMENTS_INFOS', response.data);
             resolve(response);
           })
           .catch(function(error) {
