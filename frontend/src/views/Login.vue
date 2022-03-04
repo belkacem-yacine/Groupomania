@@ -1,7 +1,7 @@
 <template>
   
   <div id="card">
-    <NavLink />
+    <Header />
     <h1 class="card__title">Connecte toi à ton compte groupomania</h1>
     <div class="form-row">
       <input
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import NavLink from '../components/NavLink.vue'
+import Header from '../components/Header.vue';
 import useValidate from "@vuelidate/core";
 import { required, email, minLength, helpers } from "@vuelidate/validators";
 import { reactive, computed } from "vue";
@@ -47,7 +47,7 @@ import { reactive, computed } from "vue";
 export default {
   name: "Login",
   components: {
-      NavLink,
+      Header,
     },
   setup() {
     const state = reactive({

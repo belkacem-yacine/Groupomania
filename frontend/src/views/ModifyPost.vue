@@ -1,5 +1,6 @@
 <template>
     <div id="card">
+        <Header />
         <NavLink />
         <div class="post">
             <label class="post__title" for="post">Créer une publication</label>
@@ -16,8 +17,8 @@
                 </button>
                 <textarea class="post__zone--text" name="post" id="post" cols="30" rows="10" v-model="state.input.post"></textarea>
             </div> 
-            <img :src="post.image_url" class="profil_card__logo" ref="photoPost"  alt="photo de publication" >
-            <img src="" class="post__img" ref="filePreview" alt=""  />
+            <img :src="post.image_url" class="profil_card__logo" ref="photoPost"  alt="" >
+            <img src="" class="post__img" ref="filePreview" alt="photo de publication"  />
         </div>
         <button @click="modifyPost(post.id)">Enregistrer la modification</button>
             <span v-if="v$.input.post.$error">
@@ -30,16 +31,19 @@
 
 <script>
 
+import NavLink from '../components/NavLink.vue';
+import Header from '../components/Header.vue';
 import { mapState } from "vuex";
-import useValidate from '@vuelidate/core'
-import { required, helpers} from '@vuelidate/validators'
-import { reactive, computed } from 'vue'
-import NavLink from '../components/NavLink.vue'
+import useValidate from '@vuelidate/core';
+import { required, helpers} from '@vuelidate/validators';
+import { reactive, computed } from 'vue';
 
 export default {
     name: 'ModifyProfile',
     components: {
+        Header,
 		NavLink
+        
 	},
     setup() {
     const state = reactive({

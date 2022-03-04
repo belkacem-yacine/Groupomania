@@ -1,5 +1,6 @@
 <template>
     <div class="card">
+        <Header />
         <NavLink />
         <!--<router-link to="/posts"><font-awesome-icon icon="fa-solid fa-arrow-left" /></router-link> -->
         <h1 class="card__title">Espace perso</h1>
@@ -22,11 +23,14 @@
 
 <script>
 //mettre une fleche dans le profil et la modif profile pour un retour arriere 
-import {mapState} from 'vuex'
-import NavLink from '../components/NavLink.vue'
+import Header from '../components/Header.vue';
+import NavLink from '../components/NavLink.vue';
+import {mapState} from 'vuex';
+
 export default {
     name: 'Profile',
     components: {
+        Header,
 		NavLink
 	},
     mounted: function() {

@@ -1,5 +1,6 @@
 <template>
     <div id="card">
+        <Header />
         <NavLink />
         <h1 class="card__title">Modification de vos informations</h1>
         <div class="form-row">
@@ -33,15 +34,17 @@
 
 <script>
 
+import NavLink from '../components/NavLink.vue';
+import Header from '../components/Header.vue';
 import { mapState } from "vuex";
-import useValidate from '@vuelidate/core'
-import { required, helpers} from '@vuelidate/validators'
-import { reactive, computed } from 'vue'
-import NavLink from '../components/NavLink.vue'
+import useValidate from '@vuelidate/core';
+import { required, helpers} from '@vuelidate/validators';
+import { reactive, computed } from 'vue';
 
 export default {
     name: 'ModifyProfile',
     components: {
+        Header,
 		NavLink
 	},
     setup () {

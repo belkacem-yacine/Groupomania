@@ -1,6 +1,6 @@
 <template>
   <div id="card">
-    <NavLink />
+    <Header />
 
     <div class="Signup">
       <h1 class="card__title">Inscription</h1>
@@ -117,7 +117,8 @@
 </template>
 
 <script>
-import NavLink from '../components/NavLink.vue'
+
+import Header from '../components/Header.vue';
 import useValidate from "@vuelidate/core";
 import {
   required,
@@ -132,7 +133,7 @@ import { reactive, computed } from "vue";
 export default {
   name: "Signup",
   components: {
-      NavLink,
+      Header,
     },
   setup() {
     const state = reactive({
