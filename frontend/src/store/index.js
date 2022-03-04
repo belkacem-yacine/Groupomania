@@ -197,7 +197,8 @@ const store = createStore({
           });
       })
     },
-    desabledPost: (postId) => {
+    desabledPost: ({commit}, postId) => {
+      commit;
       return new Promise((resolve, reject) => {
         instance.put('/post/deletePost/' + postId)
           .then(function(response) {
@@ -211,6 +212,18 @@ const store = createStore({
 
     // POUR LES COMMENTAIRES 
 
+    createComment: ({commit}, commentInfos) => {
+      return new Promise((resolve, reject) => {
+        instance.post('/comment/createComment', commentInfos)
+          .then(function(response) {
+            commit('COMMENT_INFOS', response.data);
+            resolve(response);
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      })
+    },
     getCommentInfos: ({commit}, commentId) => {
       return new Promise((resolve, reject) => {
         instance.get('/comment/' + commentId )
@@ -223,9 +236,9 @@ const store = createStore({
           });
       }) 
     },
-    getCommentsInfos: ({commit}) => {
+    getCommentsInfos: ({commit}, postId) => {
       return new Promise((resolve, reject) => {
-        instance.get('/comment/')
+        instance.get('/comment/' + postId)
           .then(function(response) {
             commit('COMMENTS_INFOS', response.data);
             resolve(response);
