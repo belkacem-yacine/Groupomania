@@ -24,4 +24,28 @@
     }
   }
 }
+
+.input-form{
+
+  width: 95%;
+  height: 35px;
+  border-radius: 6px;
+  text-align: center;
+  margin: 5px 0px;
+  border: 1px solid gray;
+  font-size: 17px;
+
+  &--identity{
+    
+      width: 45%;
+      height: 35px;
+      border-radius: 6px;
+      text-align: center;
+      margin: 5px 0px;
+      border: 1px solid gray;
+      font-size: 17px;
+
+  }
+}
+
 </style>

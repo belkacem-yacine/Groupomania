@@ -6,7 +6,7 @@
       <h1 class="card__title">Inscription</h1>
       <div class="form-row">
         <input
-          class="form-row__input"
+          class="input-form--identity"
           v-model="state.input.lastName"
           type="text"
           placeholder="Nom"
@@ -15,13 +15,25 @@
           {{ v$.input.lastName.$errors[0].$message }}
         </span>
         <input
-          class="form-row__input"
+          class="input-form--identity"
           v-model="state.input.firstName"
           type="text"
           placeholder="Prénom"
         />
         <span v-if="v$.input.firstName.$error">
           {{ v$.input.firstName.$errors[0].$message }}
+        </span>
+      </div>
+     
+      <div class="form-row">
+        <input
+          class="input-form"
+          v-model="state.input.email"
+          type="email"
+          placeholder="Email"
+        />
+        <span v-if="v$.input.email.$error">
+          {{ v$.input.email.$errors[0].$message }}
         </span>
       </div>
       <div>
@@ -39,18 +51,7 @@
       </div>
       <div class="form-row">
         <input
-          class="form-row__input"
-          v-model="state.input.email"
-          type="email"
-          placeholder="Email"
-        />
-        <span v-if="v$.input.email.$error">
-          {{ v$.input.email.$errors[0].$message }}
-        </span>
-      </div>
-      <div class="form-row">
-        <input
-          class="form-row__input"
+          class="input-form"
           v-model="state.input.password.password"
           type="password"
           placeholder="Mot de passe"
@@ -61,7 +62,7 @@
       </div>
       <div class="form-row">
         <input
-          class="form-row__input"
+          class="input-form"
           v-model="state.input.password.confirm"
           type="password"
           placeholder="Confirmation du mot de passe"
@@ -93,7 +94,7 @@
       </div>
       <div v-if="showAdminPassword">
         <input
-          class="form-row__input"
+          class="input-form"
           v-model="state.input.adminPassword"
           type="password"
           placeholder="Mot de passe administrateur"
@@ -298,4 +299,11 @@ export default {
 };
 </script>
 
-<style scoped></style>
+
+<style lang="scss" scoped>
+
+.form-row{
+  display: flex;
+  justify-content: space-around;
+}
+</style>

@@ -5,7 +5,7 @@
     <h1 class="card__title">Connecte toi à ton compte groupomania</h1>
     <div class="form-row">
       <input
-        class="form-row__input"
+        class="input-form"
         v-model="state.input.email"
         type="email"
         placeholder="Email"
@@ -16,7 +16,7 @@
     </div>
     <div class="form-row">
       <input
-        class="form-row__input"
+        class="input-form"
         v-model="state.input.password"
         type="password"
         placeholder="Mot de passe"
