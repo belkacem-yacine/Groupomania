@@ -226,7 +226,7 @@ const store = createStore({
     },
     getCommentInfos: ({commit}, commentId) => {
       return new Promise((resolve, reject) => {
-        instance.get('/comment/' + commentId )
+        instance.get('/comment/getOneComment/' + commentId )
           .then(function(response) {
             commit('COMMENT_INFOS', response.data);
             resolve(response);

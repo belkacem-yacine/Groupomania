@@ -13,7 +13,8 @@ exports.createComment = (req, res, next) => {
 exports.getAllComments = (req, res, next) => {
     db.Comment.findAll({
         where: {
-            postId : req.params.postId
+            postId : req.params.postId,
+            enabled: 1
         },
         order: [
             ['createdAt', 'DESC']
@@ -27,7 +28,15 @@ exports.getAllComments = (req, res, next) => {
 };
 
 exports.getOneComment = (req, res, next) => {
-    db.Comment.findOne({ where: { id: req.params.id } })
+     db.Comment.findOne({ 
+            where: { 
+             id: req.params.id 
+            },
+            include: [
+                { model: db.User },
+            ]
+         })
+
         .then(comment => res.status(200).json(comment))
         .catch(error => res.status(404).json({ error }));
 };
@@ -35,7 +44,7 @@ exports.getOneComment = (req, res, next) => {
 exports.modifyComment = (req, res, next) => { 
     db.Comment.findOne({ where : { id: req.params.id }})
     .then(comment => {
-            db.Comment.update({ where : { id: req.params.id }}, { ...req.body })
+            db.Comment.update({ ...req.body },{ where : { id: req.params.id }})
                 .then(() => res.status(200).json({ message: 'Commentaire modifié !'}))
                 .catch(error => res.status(400).json({ error }))
     })
@@ -44,6 +53,7 @@ exports.modifyComment = (req, res, next) => {
 
 
 exports.deleteComment = (req, res, next) => {
+    console.log(req.params.id)
     db.Comment.update(
             {
                 enabled: 0

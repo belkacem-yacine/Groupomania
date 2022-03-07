@@ -3,10 +3,11 @@
         <Header />
         <NavLink />
         <div class="comment">
-        <p> {{comment.user.firstName}} {{comment.user.lastName}}</p>
-        <p> Publié le {{formatDate(comment.createdAt)}}</p>
-        <p>{{comment.comment}}</p>
-    </div>
+           <!-- <p> {{comment.user.firstName}} {{comment.user.lastName}}</p>-->
+            <p> Publié le {{formatDate(comment.createdAt)}}</p>
+            <p>{{comment.comment}}</p>
+            <textarea class="comment__zone--text" name="comment" id="comment" cols="30" rows="10" v-model="state.input.comment"></textarea>
+        </div>
         <button @click="modifyComment(comment.id)">Enregistrer la modification</button>
             <span v-if="v$.input.comment.$error">
                 {{ v$.input.comment.$errors[0].$message }}
@@ -24,6 +25,7 @@ import { mapState } from "vuex";
 import useValidate from '@vuelidate/core';
 import { required, helpers} from '@vuelidate/validators';
 import { reactive, computed } from 'vue';
+import moment from 'moment';
 
 export default {
     name: 'ModifyComment',
@@ -32,7 +34,6 @@ export default {
 		NavLink
         
 	},
-
     setup() {
     const state = reactive({
       input: {
@@ -68,22 +69,22 @@ export default {
     mounted: function () {
         const self = this
         const urlId = this.$route.params.commentId;
-        this.$store.dispatch('getcommentInfos', urlId)
+        this.$store.dispatch('getCommentInfos', urlId)
         .then(function() {
-          self.state.input.comment = self.comment;
+          self.state.input.comment = self.comment.comment;
         }, function() {
             self.logout();
         })
     },
     computed: {
         ...mapState({ 
-            userToken: 'user',
-            user: 'userInfos', 
             comment: 'commentInfos',
-           
         })
     },
     methods: {
+         formatDate(date) {
+            return moment(date).format('DD/MM/YYYY HH:mm')
+        },    
         modifyComment: function() {
             this.v$.$validate()
             if (!this.v$.$error) {
@@ -95,7 +96,7 @@ export default {
                 fd.append('comment', JSON.stringify(comment));
                 this.$store.dispatch('modifyCommentInfos',{commentAllInfos: fd, commentId: this.comment.id })
                 .then(function() {
-                    self.$router.push('/comments');
+                    self.$router.push('/posts');
                 }, function(error) {
                     self.error = error.response.data.error;
                 })

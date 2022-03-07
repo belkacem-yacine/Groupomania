@@ -1,5 +1,6 @@
 <template>
     <div class="comment">
+        <p>{{comment}} </p>
         <p> {{comment.user.firstName}} {{comment.user.lastName}}</p>
         <p> Publié le {{formatDate(comment.createdAt)}}</p>
         <p>{{comment.comment}}</p>
@@ -39,17 +40,7 @@ export default {
             const self = this
             this.$store.dispatch('desabledComment', commentId)
             .then(function() {
-              self.refreshComments()
-            }, function(error) {
-                self.error = error.response.data.error; // etape 3
-            })
-        },
-        refreshComments: function() {
-          const self = this;
-          const postId = self.post.id
-          this.$store.dispatch('getCommentsInfos', postId)
-          .then(function(response) {
-              self.comments = response.data
+              self.$emit("delComment");
             }, function(error) {
                 self.error = error.response.data.error; // etape 3
             })

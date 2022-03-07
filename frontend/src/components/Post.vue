@@ -14,7 +14,8 @@
 
         <p v-for="comment in comments" v-bind:key="comment">
             <Comment
-                :comment="comment">
+                :comment="comment"
+                @delComment="refreshComments()">
               </Comment>
           </p>
         <button @click="modifyPost(post.id)"> Modifiez votre publication</button>
@@ -62,7 +63,7 @@ export default {
             };
         });
 
-        const v$ = useValidate(rules, state);
+        const v$ = useValidate(rules, state, { $scope: false });
 
         return {
             state,
