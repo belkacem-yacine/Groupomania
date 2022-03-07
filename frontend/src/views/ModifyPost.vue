@@ -31,12 +31,13 @@
 
 <script>
 
-import NavLink from '../components/NavLink.vue';
 import Header from '../components/Header.vue';
+import NavLink from '../components/NavLink.vue';
 import { mapState } from "vuex";
 import useValidate from '@vuelidate/core';
 import { required, helpers} from '@vuelidate/validators';
 import { reactive, computed } from 'vue';
+
 
 export default {
     name: 'ModifyPost',
