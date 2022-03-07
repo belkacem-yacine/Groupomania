@@ -3,7 +3,7 @@
         <Header />
         <NavLink />
         <div class="post">
-            <label class="post__title" for="post">Créer une publication</label>
+            <label class="post__title" for="post">Modifiez votre publication</label>
             <div class="post__zone">
                 <input
                 style="display: none"
@@ -39,7 +39,7 @@ import { required, helpers} from '@vuelidate/validators';
 import { reactive, computed } from 'vue';
 
 export default {
-    name: 'ModifyProfile',
+    name: 'ModifyPost',
     components: {
         Header,
 		NavLink

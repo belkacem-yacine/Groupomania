@@ -32,6 +32,28 @@ export default {
         formatDate(date) {
             return moment(date).format('DD/MM/YYYY HH:mm')
         },     
+        modifyComment: function(commentId) {
+            this.$router.push(`/modifyComment/${commentId}`);
+        },
+        desabledComment: function(commentId) {
+            const self = this
+            this.$store.dispatch('desabledComment', commentId)
+            .then(function() {
+              self.refreshComments()
+            }, function(error) {
+                self.error = error.response.data.error; // etape 3
+            })
+        },
+        refreshComments: function() {
+          const self = this;
+          const postId = self.post.id
+          this.$store.dispatch('getCommentsInfos', postId)
+          .then(function(response) {
+              self.comments = response.data
+            }, function(error) {
+                self.error = error.response.data.error; // etape 3
+            })
+        },
     }
 }
 </script>

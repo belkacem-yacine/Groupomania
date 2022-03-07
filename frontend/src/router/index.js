@@ -5,6 +5,7 @@ import Profile from '../views/Profile.vue'
 import UpdateProfile from '../views/ModifyProfile.vue'
 import Posts from '../views/Posts.vue'
 import UpdatePost from '../views/ModifyPost.vue'
+import UpdateComment from '../views/ModifyComment.vue'
 
 const routes = [
   {
@@ -36,6 +37,11 @@ const routes = [
     path:'/modifyPost/:postId',
     name:'ModifyPost',
     component: UpdatePost
+  },
+  {
+    path:'/modifyComment/:commentId',
+    name:'ModifyComment',
+    component: UpdateComment
   },
 ]
 

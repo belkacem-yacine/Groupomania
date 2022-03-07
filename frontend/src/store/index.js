@@ -248,7 +248,30 @@ const store = createStore({
           });
       }) 
     },
-
+    modifyCommentInfos: ({commit}, comment) => {
+      return new Promise((resolve, reject) => {
+        instance.put('/comment/modifyComment/' + comment.commentId, comment.commentAllInfos)
+          .then(function(response) {
+            commit('COMMENT_INFOS', response.data);
+            resolve(response);
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      })
+    },
+    desabledComment: ({commit}, commentId) => {
+      commit;
+      return new Promise((resolve, reject) => {
+        instance.put('/comment/deleteComment/' + commentId)
+          .then(function(response) {
+            resolve(response);
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      }) 
+    }
   },
   modules: {
   }
