@@ -89,12 +89,10 @@ export default {
             this.v$.$validate()
             if (!this.v$.$error) {
                 const self = this;
-                const fd = new FormData();
                 let comment = {
                     comment: this.state.input.comment, 
                 }
-                fd.append('comment', JSON.stringify(comment));
-                this.$store.dispatch('modifyCommentInfos',{commentAllInfos: fd, commentId: this.comment.id })
+                this.$store.dispatch('modifyCommentInfos',{commentAllInfos: comment, commentId: this.comment.id })
                 .then(function() {
                     self.$router.push('/posts');
                 }, function(error) {

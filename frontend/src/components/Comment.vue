@@ -1,6 +1,5 @@
 <template>
     <div class="comment">
-        <p>{{comment}} </p>
         <p> {{comment.user.firstName}} {{comment.user.lastName}}</p>
         <p> Publié le {{formatDate(comment.createdAt)}}</p>
         <p>{{comment.comment}}</p>
