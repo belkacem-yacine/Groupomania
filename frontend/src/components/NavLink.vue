@@ -1,9 +1,8 @@
 <template>
     <div>
       <nav class="nav">
-        <router-link to="/posts">Les publications</router-link>
-        <p> {{user.firstName}} {{user.lastName}}</p>
-        <router-link to="/profile"><img :src="user.image_url" alt="photo de profil" class="nav__img"></router-link>
+        <router-link to="/posts"><fa icon="home"/></router-link>
+        <router-link to="/profile">{{user.firstName}} {{user.lastName}}<img :src="user.image_url" alt="photo de profil" class="nav__img"></router-link>
         <button @click="logout()" class="button">
                   Déconnexion
         </button>

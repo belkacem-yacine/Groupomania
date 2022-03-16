@@ -14,15 +14,15 @@
           ref="fileInput"
         />
         <button @click.prevent="$refs.fileInput.click()" class="post__zone--button">
-          Inserer une image
+          <fa icon="paperclip"/>
         </button>
-        <textarea class="post__zone--text" name="post" id="post" cols="30" rows="10" v-model="state.input.post"></textarea>
+        <textarea class="post__zone--text" name="post" id="post" cols="30" rows="10" v-model="state.input.post" :placeholder="`Que voulez-vous partagez, ${user.firstName}?`"></textarea>
         <span v-if="v$.input.post.$error">
           {{ v$.input.post.$errors[0].$message }}
         </span>
       </div> 
       <img class="post__img" ref="filePreview" alt="" src="" />
-      <button @click="createPost()">Envoyer la publication</button>
+      <button @click="createPost()">Publier</button>
       
     </div>
     <div>

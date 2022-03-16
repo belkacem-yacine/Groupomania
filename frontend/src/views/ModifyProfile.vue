@@ -17,7 +17,7 @@
 
         <div>
             <input style="display:none" type="file" accept="image/*" @change="onFilePicked" ref="fileInput">
-            <button @click.prevent="$refs.fileInput.click()">Choisir une photo de profil</button>
+            <button @click.prevent="$refs.fileInput.click()">Modifiez votre photo de profil</button>
             <img class="profil_card__logo" ref="photoProfil"  alt="photo de profil" :src="user.image_url">
             <img class="profil_card__logo" ref="filePreview" alt="photo de profil" src="">
         </div>
