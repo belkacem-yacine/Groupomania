@@ -3,9 +3,12 @@
         <p> {{comment.user.firstName}} {{comment.user.lastName}}</p>
         <p> Publié le {{formatDate(comment.createdAt)}}</p>
         <p>{{comment.comment}}</p>
-        <button @click="modifyComment(comment.id)"> Modifiez votre commentaire</button>
-        <button @click="desabledComment(comment.id)">
-            Supprimer
+        <button @click="modifyComment(comment.id)" v-if="comment.user.id == user.id"> Modifiez votre commentaire</button>
+        <button @click="desabledComment(comment.id)" v-if="comment.user.id == user.id">
+            <fa icon="trash"/>
+        </button>
+        <button @click="desabledComment(comment.id)" v-else-if="user.admin == true">
+            <fa icon="trash"/>
         </button>
     </div>
 </template>

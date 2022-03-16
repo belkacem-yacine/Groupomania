@@ -1,26 +1,34 @@
 <template>
     <div>
-          <img :src="post.user.image_url" alt="photo de profil" style="width:100px;"> 
-          <p> {{post.user.firstName}} {{post.user.lastName}}</p>
-          <p> Publié le {{formatDate(post.createdAt)}}</p>
-          <p>{{post.post}}</p>
-          <img :src="post.image_url" alt="">
-          <textarea name="comment" id="comment" cols="30" rows="10" v-model="state.input.comment"></textarea>
-          <span v-if="v$.input.comment.$error">
-                {{ v$.input.comment.$errors[0].$message }}
-            </span>
-          <button @click="createComment()">Envoyer un commentaire</button>
-        <div>boutton pour afficher les com<!-- utiliser v-show et @click pour faire apparaitre ou non les commentaires --></div>
-
-        <p v-for="comment in comments" v-bind:key="comment">
-            <Comment
-                :comment="comment"
-                @delComment="refreshComments()">
-              </Comment>
-          </p>
-        <button @click="modifyPost(post.id)"> Modifiez votre publication</button>
-        <button @click="desabledPost(post.id)">
-            Supprimer
+        <img :src="post.user.image_url" alt="photo de profil" style="width:100px;"> 
+        <p> {{post.user.firstName}} {{post.user.lastName}}</p>
+        <p> Publié le {{formatDate(post.createdAt)}}</p>
+        <p>{{post.post}}</p>
+        <img :src="post.image_url" alt="">
+        <textarea name="comment" id="comment" cols="30" rows="10" v-model="state.input.comment" placeholder="Écrivez un commentaire ici..."></textarea>
+        <span v-if="v$.input.comment.$error">
+            {{ v$.input.comment.$errors[0].$message }}
+        </span>
+        <button @click="createComment()">Commenter</button>
+        <div>
+            <button @click="showComments = !showComments">Afficher les commentaires</button>
+            <div v-show="showComments" class="comments">
+                <p v-for="comment in comments" v-bind:key="comment">
+                    <Comment
+                        :comment="comment"
+                        @delComment="refreshComments()">
+                    </Comment>
+                </p>
+            </div>
+        </div>
+        
+        
+        <button  @click="modifyPost(post.id)" v-if="post.user.id == user.id"> Modifiez votre publication</button>
+        <button @click="desabledPost(post.id)" v-if="post.user.id == user.id">
+            <fa icon="trash"/>
+        </button>
+        <button @click="desabledPost(post.id)" v-else-if="user.admin == true">
+            <fa icon="trash"/>
         </button>
     </div>
 </template>
@@ -74,6 +82,7 @@ export default {
         return {
             error:"",
             comments:"",
+            showComments: false,
         };
     },
     mounted: function() {
