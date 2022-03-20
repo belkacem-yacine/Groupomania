@@ -2,7 +2,12 @@
     <div>
       <nav class="nav">
         <router-link to="/posts"><fa icon="home"/></router-link>
-        <router-link to="/profile">{{user.firstName}} {{user.lastName}}<img :src="user.image_url" alt="photo de profil" class="nav__img"></router-link>
+        <router-link to="/profile" class="nav__profile">
+          <p class="nav__profile--user">
+            {{user.firstName}} {{user.lastName}}
+          </p>
+          <img :src="user.image_url" alt="photo de profil" class="nav__profile--img">
+        </router-link>
         <button @click="logout()" class="button">
                   Déconnexion
         </button>
@@ -36,15 +41,26 @@ export default {
 
 
 <style lang="scss" scoped>
-    .nav{
+  .nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    &__profile{
       display: flex;
       align-items: center;
-      justify-content: space-between;
 
-        &__img{
-          border-radius: 30px;
-          height: 60px;
-          width: 60px;
-        }
+      &--user{
+        margin-right: 10px;
+      }
+
+      &--img{
+      border-radius: 30px;
+      height: 50px;
+      width: 50px;
+    }
+  }
+     
+    
 }
 </style>

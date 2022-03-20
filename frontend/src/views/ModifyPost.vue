@@ -2,29 +2,33 @@
     <div id="card">
         <Header />
         <NavLink />
-        <div class="post">
-            <label class="post__title" for="post">Modifiez votre publication</label>
-            <div class="post__zone">
-                <input
-                style="display: none"
-                type="file"
-                accept="image/*"
-                @change="onFilePicked"
-                ref="fileInput"
-                />
-                <button @click.prevent="$refs.fileInput.click()" class="post__zone--button">
-                Inserer une image
-                </button>
-                <textarea class="post__zone--text" name="post" id="post" cols="30" rows="10" v-model="state.input.post"></textarea>
-            </div> 
-            <img :src="post.image_url" class="profil_card__logo" ref="photoPost"  alt="" >
-            <img src="" class="post__img" ref="filePreview" alt="photo de publication"  />
+        <h1>Modifiez votre publication</h1>
+        <div class="position">
+            <div class="post">
+                <div class="post__zone">
+                    <input
+                    style="display: none"
+                    type="file"
+                    accept="image/*"
+                    @change="onFilePicked"
+                    ref="fileInput"
+                    />
+                    <textarea class="textarea" name="post" id="post" cols="30" rows="10" v-model="state.input.post"></textarea>
+                    <button @click.prevent="$refs.fileInput.click()" class="paperclip">
+                        <fa icon="paperclip"/>
+                    </button>
+                </div> 
+                <div>
+                    <img :src="post.image_url" class="post__img" ref="photoPost"  alt="" >
+                    <img src="" class="post__img" ref="filePreview" alt="photo de publication"  />
+                </div>
+                <button @click="modifyPost(post.id)" class="button">Enregistrer</button>
+                <span v-if="v$.input.post.$error" class="error">
+                    {{ v$.input.post.$errors[0].$message }}
+                </span>
+                <span class="error"> {{ error }} </span> <!-- etape 1 après le backend -->
+            </div>
         </div>
-        <button @click="modifyPost(post.id)">Enregistrer la modification</button>
-            <span v-if="v$.input.post.$error">
-                {{ v$.input.post.$errors[0].$message }}
-            </span>
-        <span> {{ error }} </span> <!-- etape 1 après le backend -->
     </div>
 </template>
 
@@ -129,6 +133,24 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
+.post{
+    background: #f0f1f2;
+    border: 1px solid #ffd7d7;
+    border-radius: 25px;
+    margin-bottom: 20px;
+    width: 90%;
+    margin-top: 15px;
+}
+.paperclip{
+    height: 25px;
+    margin-left: 5px;
+}
+
+.post__img{
+    border-radius: 25px;
+    width: 60%;
+    margin: 30px;
+}
 </style>

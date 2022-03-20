@@ -8,8 +8,8 @@
             <p>{{comment.comment}}</p>
             <textarea class="comment__zone--text" name="comment" id="comment" cols="30" rows="10" v-model="state.input.comment"></textarea>
         </div>
-        <button @click="modifyComment(comment.id)">Enregistrer la modification</button>
-            <span v-if="v$.input.comment.$error">
+        <button @click="modifyComment(comment.id)" class="button">Enregistrer la modification</button>
+            <span v-if="v$.input.comment.$error" class="error">
                 {{ v$.input.comment.$errors[0].$message }}
             </span>
         <span> {{ error }} </span> <!-- etape 1 après le backend -->

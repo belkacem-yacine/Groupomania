@@ -2,7 +2,7 @@
   
   <div id="card">
     <Header />
-    <h1 class="card__title">Connecte toi à ton compte groupomania</h1>
+    <h1 class="card__title">Connectez-vous</h1>
     <div class="form-row">
       <input
         class="input-form"
@@ -10,7 +10,7 @@
         type="email"
         placeholder="Email"
       />
-      <span v-if="v$.input.email.$error">
+      <span v-if="v$.input.email.$error" class="error">
         {{ v$.input.email.$errors[0].$message }}
       </span>
     </div>
@@ -21,7 +21,7 @@
         type="password"
         placeholder="Mot de passe"
       />
-      <span v-if="v$.input.password.$error">
+      <span v-if="v$.input.password.$error" class="error">
         {{ v$.input.password.$errors[0].$message }}
       </span>
     </div>
@@ -30,10 +30,10 @@
         <span>Connexion</span>
       </button>
     </div>
-    <span> {{ error }} </span>
+    <span class="error"> {{ error }} </span>
     <p class="card__subtitle">
-      Tu n'as pas encore de compte?
-      <router-link to="/">Inscris toi</router-link>
+      Vous n'avez pas encore de compte?
+      <router-link to="/" class="sign">Inscrivez-vous</router-link>
     </p>
   </div>
 </template>

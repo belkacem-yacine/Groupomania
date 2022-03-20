@@ -1,15 +1,22 @@
 <template>
     <div class="comment">
-        <p> {{comment.user.firstName}} {{comment.user.lastName}}</p>
-        <p> Publié le {{formatDate(comment.createdAt)}}</p>
-        <p>{{comment.comment}}</p>
-        <button @click="modifyComment(comment.id)" v-if="comment.user.id == user.id"> Modifiez votre commentaire</button>
-        <button @click="desabledComment(comment.id)" v-if="comment.user.id == user.id">
-            <fa icon="trash"/>
-        </button>
-        <button @click="desabledComment(comment.id)" v-else-if="user.admin == true">
-            <fa icon="trash"/>
-        </button>
+        <div class="comment__user">
+            <div class="user">
+                <img :src="comment.user.image_url" alt="photo de profil" class="user__img">
+                <p class="user__info">{{comment.user.firstName}} {{comment.user.lastName}}</p>
+            </div>
+            <p class="comment__date">Publié le {{formatDate(comment.createdAt)}}</p>
+        </div>
+        <p class="comment__textcomment">{{comment.comment}}</p>
+        <div>
+            <button @click="modifyComment(comment.id)" v-if="comment.user.id == user.id"> Modifier</button>
+            <button @click="desabledComment(comment.id)" v-if="comment.user.id == user.id">
+                <fa icon="trash"/>
+            </button>
+            <button @click="desabledComment(comment.id)" v-else-if="user.admin == true">
+                <fa icon="trash"/>
+            </button>
+        </div>
     </div>
 </template>
 
@@ -55,6 +62,45 @@ export default {
 
 <style lang="scss" scoped> 
 .comment{
-    background: green;
+        background-color: #f0f1f2;
+        border: 1px solid #ffd7d7;
+        border-radius: 25px;
+        margin-bottom: 20px;
+        font-size: small;
+
+    &__user{
+        display: flex;
+        justify-content: space-between;
+        border: 1px solid #ffd7d7;
+        border-radius: 22px;   
+    }
+    
+    &__date{
+        font-size: x-small;
+        align-self: center;
+        color: gray;
+    }
+    
+
+    &__textpost{
+        text-align: left;
+        margin-left: 45px;
+    }
+}
+
+.user{
+    
+    display: flex;
+    
+    &__info{
+        margin-left: 5px;
+    }
+
+    &__img{
+        border-radius: 30px;
+        width: 30px;
+        align-self: center;
+        border: 1px solid #ffd7d7;
+    }
 }
 </style>

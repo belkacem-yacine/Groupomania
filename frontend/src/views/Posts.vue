@@ -2,10 +2,9 @@
   <div id="card">
     <Header />
     <NavLink />
-
-    <div class="post">
-      <label class="post__title" for="post">Créer une publication</label>
-      <div class="post__zone">
+    <h1>Créer une publication</h1>
+    <div class="send-post">
+      <div class="send-post__zone">
         <input
           style="display: none"
           type="file"
@@ -13,16 +12,21 @@
           @change="onFilePicked"
           ref="fileInput"
         />
-        <button @click.prevent="$refs.fileInput.click()" class="post__zone--button">
+        <textarea class="textarea" name="post" id="post" cols="30" rows="10" v-model="state.input.post" :placeholder="`Que voulez-vous partagez, ${user.firstName}?`"></textarea>
+        <button @click.prevent="$refs.fileInput.click()" class="send-post__zone--paperclip">
           <fa icon="paperclip"/>
         </button>
-        <textarea class="post__zone--text" name="post" id="post" cols="30" rows="10" v-model="state.input.post" :placeholder="`Que voulez-vous partagez, ${user.firstName}?`"></textarea>
-        <span v-if="v$.input.post.$error">
+        <img class="send-post__img" ref="filePreview" alt="" src="" />  
+      </div> 
+      <span v-if="v$.input.post.$error" class="error">
           {{ v$.input.post.$errors[0].$message }}
         </span>
-      </div> 
-      <img class="post__img" ref="filePreview" alt="" src="" />
-      <button @click="createPost()">Publier</button>
+      <button @click="createPost()" class="send-post__zone--button button">Publier</button>
+      <!--<button>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        </button>-->
       
     </div>
     <div>
@@ -127,7 +131,7 @@ export default {
         reader.readAsDataURL(this.post_image);
         },
         refreshData: function() {
-          this.state.input.post = ""
+          this.state.input.post = "";
           this.$refs.filePreview.src = "";
           const self = this
           this.$store.dispatch('getPostsInfos')
@@ -165,39 +169,45 @@ export default {
     }
 }
 
-.post{
-  display: flex;
-  flex-direction: column; 
+.send-post{
+  background-color: #f0f1f2;
+  border: 1px solid #ffd7d7;
+  border-radius: 25px;
+  margin-bottom: 20px;
+  width: 90%;
+  margin-top: 15px;
 
     &__title{
-      font-size: x-large;
       margin: 50px 0px 35px 0px;
     }
 
     &__zone{
       display: flex;
-      flex-direction: row-reverse;
+      justify-content: center;
+      align-items: flex-end;
+      flex-wrap: wrap;
+
+
+
+      &--paperclip{
+        height: 25px;
+        margin-left: 5px;
+      }
+
+      &--button{
+      width: 22%;
+      }
     }
 
     &__img {
+      margin-top: 10px;
       margin-bottom: 15px;
       height: auto;
       width: 25%;
       align-self: center;
     }
 
-    &__zone--text{
-      height: 200px;
-      width: 90%;
-      align-self: center;
-      margin-bottom: 15px;
-    }
     
-    &__zone--button{
-      height: 50px;
-      align-self: end;
-      margin: 0px 0px 15px 5px;
-    }
 }
 
 </style>

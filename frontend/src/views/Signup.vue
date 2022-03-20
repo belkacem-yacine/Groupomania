@@ -3,7 +3,7 @@
     <Header />
 
     <div class="Signup">
-      <h1 class="card__title">Inscription</h1>
+      <h1 class="card__title">Créez votre compte</h1>
       <div class="form-row">
         <input
           class="input-form--identity"
@@ -11,7 +11,7 @@
           type="text"
           placeholder="Nom"
         />
-        <span v-if="v$.input.lastName.$error">
+        <span v-if="v$.input.lastName.$error" class="error">
           {{ v$.input.lastName.$errors[0].$message }}
         </span>
         <input
@@ -20,7 +20,7 @@
           type="text"
           placeholder="Prénom"
         />
-        <span v-if="v$.input.firstName.$error">
+        <span v-if="v$.input.firstName.$error" class="error">
           {{ v$.input.firstName.$errors[0].$message }}
         </span>
       </div>
@@ -32,22 +32,9 @@
           type="email"
           placeholder="Email"
         />
-        <span v-if="v$.input.email.$error">
+        <span v-if="v$.input.email.$error" class="error">
           {{ v$.input.email.$errors[0].$message }}
         </span>
-      </div>
-      <div>
-        <input
-          style="display: none"
-          type="file"
-          accept="image/*"
-          @change="onFilePicked"
-          ref="fileInput"
-        />
-        <button @click.prevent="$refs.fileInput.click()">
-          Choisir une photo de profil
-        </button>
-        <img class="profil_card__logo" ref="filePreview" alt="" src="" />
       </div>
       <div class="form-row">
         <input
@@ -56,7 +43,7 @@
           type="password"
           placeholder="Mot de passe"
         />
-        <span v-if="v$.input.password.password.$error">
+        <span v-if="v$.input.password.password.$error" class="error">
           {{ v$.input.password.password.$errors[0].$message }}
         </span>
       </div>
@@ -67,52 +54,75 @@
           type="password"
           placeholder="Confirmation du mot de passe"
         />
-        <span v-if="v$.input.password.confirm.$error">
+        <span v-if="v$.input.password.confirm.$error" class="error">
           {{ v$.input.password.confirm.$errors[0].$message }}
         </span>
       </div>
-      <p>Etes-vous administrateur</p>
       <div>
+        <p>Choisir une photo de profil</p>
         <input
-          type="radio"
-          id="yes"
-          name="admin"
-          value="true"
-          v-model="state.input.admin"
+          style="display: none"
+          type="file"
+          accept="image/*"
+          @change="onFilePicked"
+          ref="fileInput"
         />
-        <label for="yes">Oui</label>
+        <button @click.prevent="$refs.fileInput.click()" class="parcourir">
+          Parcourir...
+        </button>
+        <div>
+          <img class="profil_card__logo" ref="filePreview" alt="" src="" />
+        </div>
+       
       </div>
-      <div>
-        <input
-          type="radio"
-          id="no"
-          name="admin"
-          value="false"
-          v-model="state.input.admin"
-        />
-        <label for="no">Non</label>
+      <div class="form-row__admin">
+        <p>Etes-vous administrateur ?</p>
+        <div class="form-row__admin--radio">
+          <div>
+            <input
+              type="radio"
+              id="yes"
+              name="admin"
+              value="true"
+              v-model="state.input.admin"
+            />
+            <label for="yes">Oui</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="no"
+              name="admin"
+              value="false"
+              v-model="state.input.admin"
+            />
+            <label for="no">Non</label>
+          </div>
+        </div>
+        
+        <div v-if="showAdminPassword">
+          <input
+            class="input-form"
+            v-model="state.input.adminPassword"
+            type="password"
+            placeholder="Mot de passe administrateur"
+          />
+          <span v-if="v$.input.adminPassword.$error" class="error">
+            {{ v$.input.adminPassword.$errors[0].$message }}
+          </span>
+        </div>
       </div>
-      <div v-if="showAdminPassword">
-        <input
-          class="input-form"
-          v-model="state.input.adminPassword"
-          type="password"
-          placeholder="Mot de passe administrateur"
-        />
-        <span v-if="v$.input.adminPassword.$error">
-          {{ v$.input.adminPassword.$errors[0].$message }}
-        </span>
-      </div>
+      
       <div>
         <button @click="signup()" class="button">
           <span>Créer un compte</span>
         </button>
       </div>
-      <span> {{ error }} </span>
+      <span class="error"> {{ error }} </span>
       <!-- etape 1 après le backend -->
     </div>
     <p class="card__subtitle">
-        Tu as déjà un compte? <router-link to="/login">Connecte toi</router-link>
+        Vous avez déjà un compte? <router-link to="/login" class="sign">Connectez-vous</router-link>
       </p>
   </div>
 </template>
@@ -305,5 +315,19 @@ export default {
 .form-row{
   display: flex;
   justify-content: space-around;
+
+  &__admin{
+    margin: -10px 0px 20px 0px;
+
+    &--radio{
+      display: flex;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.parcourir{
+  margin-bottom: 15px;
 }
 </style>

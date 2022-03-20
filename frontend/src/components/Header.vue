@@ -18,6 +18,7 @@ export default {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  margin-bottom: 25px;
   background-color: rgb(253, 45, 1);
 
    &__logo{
