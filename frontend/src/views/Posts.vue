@@ -142,30 +142,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.header {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-
-    &__nav{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    &__logo{
-      width: 250px;
-      height: auto;
-      align-self: center; 
-    }
-
-    &__img{
-      border-radius: 30px;
-      height: 60px;
-      width: 60px;
-    }
-}
-
 .send-post{
   display: flex;
   flex-direction: column;
