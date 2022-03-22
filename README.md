@@ -83,16 +83,16 @@ Aucune entrée de la base de donnés ne peut pas être nulle.
 
 { id : integer, lastName : string, firstName : string, email : string, password : string, image_url : string, admin : boolean, enabled : boolean, createdAt : datetime, updatedAt : datetime }
 
-![USER_API](https://user-images.githubusercontent.com/81988403/149660331-49a93960-21e8-49ce-a4f8-0ab07204027d.PNG)
+![USER_API](https://user-images.githubusercontent.com/82067897/159576445-ed310872-1181-4f70-a4fb-2d98eb3ef0ec.png)
 
 ### PUBLICATION `/post`
 
 { id : integer, post : string, image_url : string, userId : integer, createdAt : datetime, updatedAt : datetime }
 
-![POST_API](https://user-images.githubusercontent.com/81988403/149657222-ee0af885-f21f-43c1-b136-2e79268d6be8.PNG)
+![POST_API](https://user-images.githubusercontent.com/82067897/159576478-975ab478-80d5-483e-8c7a-dcf3340bb72c.png)
 
 ### COMMENT `/comment`
 
 { id : integer, comment : string, enabled : boolean, postId : integer, userId : integer, createdAt : datetime, updatedAt : datetime }
 
-![COMMENT_API](https://user-images.githubusercontent.com/81988403/149657240-5085e2bc-4742-4ab7-b3ea-f874a1468f31.PNG)
+![COMMENT_API](https://user-images.githubusercontent.com/82067897/159576493-65fae6e9-258b-49c9-98d6-cee2ea9c1973.png)
