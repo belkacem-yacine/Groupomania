@@ -3,11 +3,11 @@
     <Header />
     <NavLink />
     <div class="position">
-        <h1 class="card__title">Espace perso</h1>
+        <h1 class="card__title">Votre profil</h1>
         <div class="profile background">
           <div class="profile__infos">
               <p class="card__subtitle">Voilà donc qui je suis...</p>
-              <p>{{ user.firstName }} {{ user.lastName }} {{ user.email }}</p>
+              <p>Je m'appelle {{ user.firstName }} {{ user.lastName }} et mon adresse mail est: {{ user.email }}</p>
               <img :src="user.image_url" alt="" class="profile__infos--image"/>
           </div>
           <div class="profile__button">
@@ -50,6 +50,11 @@ export default {
     }),
   },
   methods: {
+    logout: function() {
+            this.$store.commit('LOGOUT');
+            this.$router.push('/');
+    },
+
     desabledUser: function () {
       const self = this;
       this.$store.dispatch("desabledUser", this.userToken.userId).then(
