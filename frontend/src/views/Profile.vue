@@ -4,7 +4,7 @@
     <NavLink />
     <div class="position">
         <h1 class="card__title">Espace perso</h1>
-        <div class="profile">
+        <div class="profile background">
           <div class="profile__infos">
               <p class="card__subtitle">Voilà donc qui je suis...</p>
               <p>{{ user.firstName }} {{ user.lastName }} {{ user.email }}</p>
@@ -68,12 +68,6 @@ export default {
 <style lang="scss" scoped> 
 
 .profile{
-        background-color: #f0f1f2;
-        border: 1px solid #ffd7d7;
-        border-radius: 25px;
-        margin-bottom: 20px;
-        width: 90%;
-        margin-top: 15px;
 
     &__infos{
 

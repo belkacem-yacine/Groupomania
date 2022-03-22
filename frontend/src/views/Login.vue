@@ -1,36 +1,40 @@
 <template>
-  
   <div id="card">
     <Header />
     <h1 class="card__title">Connectez-vous</h1>
-    <div class="form-row">
-      <input
-        class="input-form"
-        v-model="state.input.email"
-        type="email"
-        placeholder="Email"
-      />
-      <span v-if="v$.input.email.$error" class="error">
-        {{ v$.input.email.$errors[0].$message }}
-      </span>
-    </div>
-    <div class="form-row">
-      <input
-        class="input-form"
-        v-model="state.input.password"
-        type="password"
-        placeholder="Mot de passe"
-      />
-      <span v-if="v$.input.password.$error" class="error">
-        {{ v$.input.password.$errors[0].$message }}
-      </span>
-    </div>
-    <div>
-      <button @click="login()" class="button">
-        <span>Connexion</span>
-      </button>
-    </div>
-    <span class="error"> {{ error }} </span>
+    
+      <div class="background background--padding">
+        <div class="form-row">
+          <input
+            class="input-form"
+            v-model="state.input.email"
+            type="email"
+            placeholder="Email"
+          />
+          <span v-if="v$.input.email.$error" class="error">
+            {{ v$.input.email.$errors[0].$message }}
+          </span>
+        </div>
+        <div class="form-row">
+          <input
+            class="input-form"
+            v-model="state.input.password"
+            type="password"
+            placeholder="Mot de passe"
+          />
+          <span v-if="v$.input.password.$error" class="error">
+            {{ v$.input.password.$errors[0].$message }}
+          </span>
+          <span class="error"> {{ error }} </span>
+        </div>
+        <div>
+          <button @click="login()" class="button">
+            <span>Connexion</span>
+          </button>
+        </div>
+      </div>
+    
+
     <p class="card__subtitle">
       Vous n'avez pas encore de compte?
       <router-link to="/" class="sign">Inscrivez-vous</router-link>
@@ -39,7 +43,7 @@
 </template>
 
 <script>
-import Header from '../components/Header.vue';
+import Header from "../components/Header.vue";
 import useValidate from "@vuelidate/core";
 import { required, email, minLength, helpers } from "@vuelidate/validators";
 import { reactive, computed } from "vue";
@@ -47,8 +51,8 @@ import { reactive, computed } from "vue";
 export default {
   name: "Login",
   components: {
-      Header,
-    },
+    Header,
+  },
   setup() {
     const state = reactive({
       input: {
@@ -62,22 +66,23 @@ export default {
         input: {
           email: {
             required: helpers.withMessage(
-                "Veuillez renseigner ce champ !",
-                required
+              "Veuillez renseigner ce champ !",
+              required
             ),
             email: helpers.withMessage(
-                "Veuillez saisir une adresse mail valide !",
-                email
+              "Veuillez saisir une adresse mail valide !",
+              email
             ),
           },
           password: {
             required: helpers.withMessage(
-                "Veuillez renseigner ce champ !",
-                required
+              "Veuillez renseigner ce champ !",
+              required
             ),
             minLength: helpers.withMessage(
-                "Le mot de passe doit comporter 6 caractères minimum !", minLength(6)
-            )
+              "Le mot de passe doit comporter 6 caractères minimum !",
+              minLength(6)
+            ),
           },
         },
       };
@@ -125,4 +130,16 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+  .center{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .form-row{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+</style>

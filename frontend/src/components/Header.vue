@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-      <img class="header__logo" src="images/icon-left-font-monochrome-white-redi.png" alt="logo de groupomania">
+      <img class="header__logo" src="/images/icon-left-font-monochrome-white-redi.png" alt="logo de groupomania">
     </div>
 </template>
 
@@ -14,7 +14,7 @@ export default {
 
 
 <style lang="scss" scoped>
-    .header {
+.header {
   display: flex;
   justify-content: space-between;
   flex-direction: column;

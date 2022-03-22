@@ -26,11 +26,6 @@ h1 , h2
     font-family: 'Shrikhand', cursive;
 }
 
-/*#app{
-  background-image: url("../public/images/icon.png");
-  background-size: cover;
-}*/
-
 .sign{
   color: black;
   font-weight: bold;
@@ -53,7 +48,7 @@ h1 , h2
 
   &--identity{
     
-    width: 45%;
+    width: 100%;
     height: 35px;
     border-radius: 6px;
     text-align: center;
@@ -68,33 +63,21 @@ h1 , h2
   background: rgb(253, 45, 1);
   border-radius: 25px;
   border: rgb(253, 45, 1);
-  padding: 10px 25px;
-  box-shadow: 6px 6px 5px lightgray;
-  position: relative;
-  z-index: 1;
+  padding: 7px 15px;
+  box-shadow: 6px 6px 5px #ffd7d7;
   color: #fff;
   font-weight: bold;
   margin: 5px;
-  
-  &:hover{
-        &::after{
-            opacity: 1;
-        }
-    }
 
-    &::after{
-        content: "";
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        opacity: 0;
-        z-index: -1;
-        transition: opacity 250ms;
-        border-radius: 25px;
-        box-shadow: 6px 6px 5px gray;
+  &__little{
+    border-radius: 5px;
+    padding: 5px;
+
+    &--fa{
+      margin-right: -5px;
+      margin-left: 8px;
     }
+  }
 }
 
 .error {
@@ -103,17 +86,35 @@ h1 , h2
 }
 
 .textarea{
-  width: 320px;
+  width: 85%;
   border-radius: 20px;
   text-align: center;
   box-shadow: 4px 2px #ffd7d7;
   margin-top: 15px;
 }
 
-.position{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 15px;
+.background{
+    background: #f0f1f2;
+    border: 1px solid #ffd7d7;
+    border-radius: 25px;
+    width: 90%;
+    margin: auto;
+
+    @include media-tablette{
+            width: 80%;
+    }
+
+    @include little-desktop{
+                width: 70%;
+    }
+
+    @include desktop-only{
+                width: 60%;
+    }
+
+    &--padding{
+      padding: 25px 0px;
+    }
 }
+
 </style>

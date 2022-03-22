@@ -1,68 +1,68 @@
 <template>
-    <div id="card">
-        <Header />
-        <NavLink />
-        <h1 class="card__title">Modifiez vos informations</h1>
-        <div class="form-row">
-            <div class="form-row--direction">
-                <input
-                    class="form-row--identity"
-                    v-model="state.input.lastName"
-                    type="text"
-                    placeholder="Nom"
-                />
-                <span v-if="v$.input.lastName.$error" class="error">
-                    {{ v$.input.lastName.$errors[0].$message }}
-                </span>
-            </div>
-        
-            <div class="form-row--direction">
-                <input
-                    class="form-row--identity"
-                    v-model="state.input.firstName"
-                    type="text"
-                    placeholder="Prénom"
-                />
-                <span v-if="v$.input.firstName.$error" class="error">
-                    {{ v$.input.firstName.$errors[0].$message }}
-                </span>
-            </div>
-        
-        </div>
-        <div>
-            <input
-                style="display: none"
-                type="file"
-                accept="image/*"
-                @change="onFilePicked"
-                ref="fileInput"
-            />
-            
-            <img
-                class="profil-card__image"
-                ref="photoProfil"
-                alt="photo de profil"
-                :src="user.image_url"
-            />
-            <img
-                class="profil-card__image"
-                ref="filePreview"
-                alt="photo de profil"
-                src=""
-            />
+  <div id="card">
+    <Header />
+    <NavLink />
+    <h1 class="card__title">Modifiez vos informations</h1>
+    <div class="background background--padding">
+      <div class="form-row">
+        <div class="form-row--direction">
+          <input
+            class="form-row--identity"
+            v-model="state.input.lastName"
+            type="text"
+            placeholder="Nom"
+          />
+          <span v-if="v$.input.lastName.$error" class="error">
+            {{ v$.input.lastName.$errors[0].$message }}
+          </span>
         </div>
 
-        <div>
-            <button @click.prevent="$refs.fileInput.click()" class="button">
-                Modifiez votre photo
-            </button>  
-            <button @click="modifyProfile()" class="button">
-                <span>Enregistrer</span>
-            </button>
+        <div class="form-row--direction">
+          <input
+            class="form-row--identity"
+            v-model="state.input.firstName"
+            type="text"
+            placeholder="Prénom"
+          />
+          <span v-if="v$.input.firstName.$error" class="error">
+            {{ v$.input.firstName.$errors[0].$message }}
+          </span>
         </div>
-        <span class="error"> {{ error }} </span>
-        <!-- etape 1 après le backend -->
+      </div>
+      <div>
+        <input
+          style="display: none"
+          type="file"
+          accept="image/*"
+          @change="onFilePicked"
+          ref="fileInput"
+        />
+
+        <img
+          class="profil-card__image"
+          ref="photoProfil"
+          alt="photo de profil"
+          :src="user.image_url"
+        />
+        <img
+          class="profil-card__image"
+          ref="filePreview"
+          alt="photo de profil"
+          src=""
+        />
+      </div>
+
+      <div>
+        <button @click.prevent="$refs.fileInput.click()" class="button">
+          Modifiez votre photo
+        </button>
+        <button @click="modifyProfile()" class="button">
+          <span>Enregistrer</span>
+        </button>
+      </div>
+      <span class="error"> {{ error }} </span>
     </div>
+  </div>
 </template>
 
 <script>
@@ -182,32 +182,42 @@ export default {
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
+.form-row {
+  display: flex;
+  justify-content: space-around;
 
-.form-row{
+  &--direction {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    width: 45%;
+  }
 
-    &--direction{
-        display: flex;
-        flex-direction: column;
-        width: 45%;
-    }
-
-    &--identity{
-
-        height: 35px;
-        border-radius: 6px;
-        text-align: center;
-        margin: 5px 0px;
-        border: 1px solid gray;
-        font-size: 17px;
-    }
+  &--identity {
+    height: 35px;
+    border-radius: 6px;
+    text-align: center;
+    margin: 5px 0px;
+    border: 1px solid gray;
+    font-size: 17px;
+  }
 }
 
-.profil-card__image{
-    border-radius: 25px;
-    width: 60%;
-    margin: 30px;
+.profil-card__image {
+  border-radius: 25px;
+  width: 60%;
+  margin: 30px;
+
+  @include media-tablette {
+    width: 50%;
+  }
+
+  @include little-desktop {
+    width: 40%;
+  }
+
+  @include desktop-only {
+    width: 30%;
+  }
 }
 </style>

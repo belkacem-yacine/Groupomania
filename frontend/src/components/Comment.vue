@@ -9,11 +9,11 @@
         </div>
         <p class="comment__textcomment">{{comment.comment}}</p>
         <div>
-            <button @click="modifyComment(comment.id)" v-if="comment.user.id == user.id"> Modifier</button>
-            <button @click="desabledComment(comment.id)" v-if="comment.user.id == user.id">
+            <button @click="modifyComment(comment.id)" v-if="comment.user.id == user.id" class="button button__little"> Modifier</button>
+            <button @click="desabledComment(comment.id)" v-if="comment.user.id == user.id" class="button button__little">
                 <fa icon="trash"/>
             </button>
-            <button @click="desabledComment(comment.id)" v-else-if="user.admin == true">
+            <button @click="desabledComment(comment.id)" v-else-if="user.admin == true" class="button button__little">
                 <fa icon="trash"/>
             </button>
         </div>
@@ -62,7 +62,7 @@ export default {
 
 <style lang="scss" scoped> 
 .comment{
-        background-color: #f0f1f2;
+        background-color: white;
         border: 1px solid #ffd7d7;
         border-radius: 25px;
         margin-bottom: 20px;
@@ -99,6 +99,7 @@ export default {
     &__img{
         border-radius: 30px;
         width: 30px;
+        height: 30px;
         align-self: center;
         border: 1px solid #ffd7d7;
     }

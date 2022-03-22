@@ -3,32 +3,31 @@
     <Header />
     <NavLink />
     <h1>Créer une publication</h1>
-    <div class="send-post">
-      <div class="send-post__zone">
-        <input
-          style="display: none"
-          type="file"
-          accept="image/*"
-          @change="onFilePicked"
-          ref="fileInput"
-        />
-        <textarea class="textarea" name="post" id="post" cols="30" rows="10" v-model="state.input.post" :placeholder="`Que voulez-vous partagez, ${user.firstName}?`"></textarea>
-        <button @click.prevent="$refs.fileInput.click()" class="send-post__zone--paperclip">
-          <fa icon="paperclip"/>
-        </button>
-        <img class="send-post__img" ref="filePreview" alt="" src="" />  
-      </div> 
-      <span v-if="v$.input.post.$error" class="error">
-          {{ v$.input.post.$errors[0].$message }}
-        </span>
-      <button @click="createPost()" class="send-post__zone--button button">Publier</button>
-      <!--<button>
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
-        </button>-->
-      
+    <div class="position">
+      <div class="send-post background">
+        <div class="send-post__zone">
+          <input
+            style="display: none"
+            type="file"
+            accept="image/*"
+            @change="onFilePicked"
+            ref="fileInput"
+          />
+          <textarea class="textarea" name="post" id="post" cols="30" rows="10" v-model="state.input.post" :placeholder="`Que voulez-vous partagez, ${user.firstName}?`"></textarea>
+          <button @click.prevent="$refs.fileInput.click()" class="button button__little button__little--fa">
+            <fa icon="paperclip"/>
+          </button>
+          <img class="send-post__img" ref="filePreview" alt="" src="" />  
+        </div>
+        <div>
+          <span v-if="v$.input.post.$error" class="error">
+            {{ v$.input.post.$errors[0].$message }}
+          </span> 
+        </div>
+        <button @click="createPost()" class="send-post__zone--button button">Publier</button>
+      </div>
     </div>
+    
     <div>
       <li v-for="post in posts" v-bind:key="post">
         <Post
@@ -88,13 +87,11 @@ export default {
     data: function () {
         return {
             error:"",
-            //comments:"",
         };
     },
     mounted: function () {
       this.$store.dispatch('getUserInfos', this.$store.state.user.userId);
       this.$store.dispatch('getPostsInfos');
-      //this.$store.dispatch('getCommentsInfos');
     },
     computed: {
         ...mapState({ 
@@ -131,11 +128,11 @@ export default {
         reader.readAsDataURL(this.post_image);
         },
         refreshData: function() {
-          this.state.input.post = "";
-          this.$refs.filePreview.src = "";
           const self = this
           this.$store.dispatch('getPostsInfos')
           .then(function() {
+            document.getElementById("post").value = "";
+            self.$refs.filePreview.src = "";
             }, function(error) {
                 self.error = error.response.data.error; // etape 3
             })
@@ -170,12 +167,9 @@ export default {
 }
 
 .send-post{
-  background-color: #f0f1f2;
-  border: 1px solid #ffd7d7;
-  border-radius: 25px;
-  margin-bottom: 20px;
-  width: 90%;
-  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
     &__title{
       margin: 50px 0px 35px 0px;
@@ -186,16 +180,15 @@ export default {
       justify-content: center;
       align-items: flex-end;
       flex-wrap: wrap;
+      width: 90%;
 
-
+      &--button {
+        margin-bottom: 10px;
+      }
 
       &--paperclip{
         height: 25px;
         margin-left: 5px;
-      }
-
-      &--button{
-      width: 22%;
       }
     }
 
