@@ -45,7 +45,7 @@ exports.modifyPost = (req, res, next) => {
     } : { ...JSON.parse(req.body.post)};
     db.Post.findOne({ where : { id: req.params.id }})
     .then( post => {
-        if(req.file) {
+        if(req.file && post.image_url != null) {
             const filename = post.image_url.split('/images/posts/')[1] //entre crochet le 1 cest pour acceder a un tableau 
             fs.unlink(`images/posts/${filename}`, () => {
             });
