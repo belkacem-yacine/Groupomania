@@ -1,7 +1,8 @@
 <template>
   <div id="card">
     <Header />
-      <h1 class="card__title">Créez votre compte</h1>
+      <h1>Bienvenue sur le réseau social de Groupomania !</h1>
+      <h2 class="card__title">Créez votre compte</h2>
       <div class="background background--padding">
         <div class="form-row">
           <div class="display display--width">
@@ -74,7 +75,7 @@
             Parcourir...
           </button>
           <div>
-            <img class="profil_card__logo" ref="filePreview" alt="" src="" />
+            <img class="profil-card__logo" ref="filePreview" alt="" src="" />
           </div>
         </div>
         <div class="form-row__admin">
@@ -347,5 +348,20 @@ export default {
 
 .parcourir {
   margin-bottom: 15px;
+}
+
+.profil-card__logo{
+  width: 100%;
+  @include media-tablette {
+    width: 70%;
+  }
+
+  @include little-desktop {
+    width: 60%;
+  }
+
+  @include desktop-only {
+    width: 50%;
+  }
 }
 </style>

@@ -166,6 +166,5 @@ export default {
 .post__img {
   border-radius: 25px;
   width: 60%;
-  //margin: 30px; le mettre sur le textarea et sur le bouton enregistrer
 }
 </style>
