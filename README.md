@@ -87,7 +87,7 @@ Aucune entrée de la base de donnés ne peut pas être nulle.
 
 ### PUBLICATION `/post`
 
-{ id : integer, post : string, image_url : string, userId : integer, createdAt : datetime, updatedAt : datetime }
+{ id : integer, post : string, image_url : string, userId : integer, enabled : boolean, createdAt : datetime, updatedAt : datetime }
 
 ![POST_API](https://user-images.githubusercontent.com/82067897/159576478-975ab478-80d5-483e-8c7a-dcf3340bb72c.png)
 
