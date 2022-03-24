@@ -132,8 +132,6 @@ export default {
       function () {
         self.state.input.firstName = self.user.firstName;
         self.state.input.lastName = self.user.lastName;
-
-        //self.state.input.admin = self.user.admin; je sais pas si cest utile de le mettre dans la signup vue
       },
       function () {
         self.logout();
