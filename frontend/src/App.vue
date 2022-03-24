@@ -29,10 +29,6 @@ h1 , h2
 .sign{
   color: black;
   font-weight: bold;
-
-  &--white{
-    color: #fff;
-  }
 }
 
 
@@ -65,7 +61,7 @@ h1 , h2
   border: rgb(253, 45, 1);
   padding: 7px 15px;
   box-shadow: 6px 6px 5px #ffd7d7;
-  color: #fff;
+  color: #000;
   font-weight: bold;
   margin: 5px;
 
@@ -115,6 +111,10 @@ h1 , h2
     &--padding{
       padding: 25px 0px;
     }
+}
+
+.invisible{
+  display: none;
 }
 
 </style>

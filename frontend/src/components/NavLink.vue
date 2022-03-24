@@ -1,7 +1,7 @@
 <template>
     <div>
       <nav class="nav">
-        <router-link to="/posts"><fa icon="home"/></router-link>
+        <router-link to="/posts"><fa icon="home"/> Accueil</router-link>
         <router-link to="/profile" class="nav__profile">
           <p class="nav__profile--user">
             {{user.firstName}} {{user.lastName}}

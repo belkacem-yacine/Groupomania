@@ -12,7 +12,7 @@
           </div>
           <div class="profile__button">
               <button class="button">
-              <router-link to="/modifyProfile" class="sign--white">
+              <router-link to="/modifyProfile">
                   Modifier</router-link>
               </button>
               <button @click="desabledUser()" class="button">
@@ -25,7 +25,6 @@
 </template>
 
 <script>
-//mettre une fleche dans le profil et la modif profile pour un retour arriere
 import Header from "../components/Header.vue";
 import NavLink from "../components/NavLink.vue";
 import { mapState } from "vuex";
@@ -62,7 +61,7 @@ export default {
           self.logout();
         },
         function (error) {
-          self.error = error.response.data.error; // etape 3
+          self.error = error.response.data.error;
         }
       );
     },

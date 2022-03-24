@@ -12,6 +12,7 @@
         rows="10"
         v-model="state.input.comment"
       ></textarea>
+      <label for="comment" class="invisible">Commentaire</label>
       <span v-if="v$.input.comment.$error" class="error">
         {{ v$.input.comment.$errors[0].$message }}
       </span>
@@ -21,7 +22,6 @@
       <span> {{ error }} </span>
     </div>
 
-    <!-- etape 1 après le backend -->
   </div>
 </template>
 

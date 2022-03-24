@@ -7,12 +7,14 @@
       <div class="post background">
         <div class="post__zone">
           <input
-            style="display: none"
+            class="invisible"
+            id="image"
             type="file"
             accept="image/*"
             @change="onFilePicked"
             ref="fileInput"
           />
+          <label for="image" class="invisible">Image</label>
           <textarea
             class="textarea"
             name="post"
@@ -21,11 +23,12 @@
             rows="10"
             v-model="state.input.post"
           ></textarea>
+          <label for="post" class="invisible">Publication</label>
           <button
             @click.prevent="$refs.fileInput.click()"
             class="button button__little button__little--fa"
           >
-            <fa icon="paperclip" />
+            <fa icon="paperclip" /> <p class="invisible">Insérer</p>
           </button>
           <div>
             <span v-if="v$.input.post.$error" class="error">
@@ -45,7 +48,6 @@
         <button @click="modifyPost(post.id)" class="button">Enregistrer</button>
 
         <span class="error"> {{ error }} </span>
-        <!-- etape 1 après le backend -->
       </div>
     </div>
   </div>

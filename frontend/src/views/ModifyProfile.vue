@@ -8,10 +8,12 @@
         <div class="form-row--direction">
           <input
             class="form-row--identity"
+            id="lastName"
             v-model="state.input.lastName"
             type="text"
             placeholder="Nom"
           />
+          <label for="lastName" class="invisible">Nom</label>
           <span v-if="v$.input.lastName.$error" class="error">
             {{ v$.input.lastName.$errors[0].$message }}
           </span>
@@ -20,10 +22,12 @@
         <div class="form-row--direction">
           <input
             class="form-row--identity"
+            id="firstName"
             v-model="state.input.firstName"
             type="text"
             placeholder="Prénom"
           />
+          <label for="firstName" class="invisible">Prénom</label>
           <span v-if="v$.input.firstName.$error" class="error">
             {{ v$.input.firstName.$errors[0].$message }}
           </span>
@@ -31,13 +35,14 @@
       </div>
       <div>
         <input
-          style="display: none"
+          class="invisible"
+          id="image"
           type="file"
           accept="image/*"
           @change="onFilePicked"
           ref="fileInput"
         />
-
+        <label for="image" class="invisible">Image</label>
         <img
           class="profil-card__image"
           ref="photoProfil"

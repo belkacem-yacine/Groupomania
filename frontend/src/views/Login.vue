@@ -7,10 +7,12 @@
         <div class="form-row">
           <input
             class="input-form"
+            id="email"
             v-model="state.input.email"
             type="email"
             placeholder="Email"
           />
+          <label for="email" class="invisible">email</label>
           <span v-if="v$.input.email.$error" class="error">
             {{ v$.input.email.$errors[0].$message }}
           </span>
@@ -18,10 +20,12 @@
         <div class="form-row">
           <input
             class="input-form"
+            id="password"
             v-model="state.input.password"
             type="password"
             placeholder="Mot de passe"
           />
+          <label for="password" class="invisible">Mot de passe</label>
           <span v-if="v$.input.password.$error" class="error">
             {{ v$.input.password.$errors[0].$message }}
           </span>

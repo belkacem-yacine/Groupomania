@@ -78,7 +78,7 @@ exports.modifyUser = (req, res, next) => {
         if((userObject.admin == true || userObject.admin == "true") && userObject.adminPassword != dbConfig.ADMIN_PASSWORD) {
             return res.status(400).json({ error : 'Mot de passe administrateur incorrect !'});
         } else {
-        const filename = user.image_url.split('/images/profils/')[1]; //entre crochet le 1 cest pour acceder a un tableau 
+        const filename = user.image_url.split('/images/profils/')[1];
         if(req.file) {
             fs.unlink(`images/profils/${filename}`, () => {});
           }

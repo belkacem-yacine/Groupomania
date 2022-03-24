@@ -7,11 +7,13 @@
         <div class="form-row">
           <div class="display display--width">
             <input
+            id="lastName"
             class="input-form--identity"
             v-model="state.input.lastName"
             type="text"
             placeholder="Nom"
             />
+            <label for="lastName" class="invisible">Nom</label>
             <span v-if="v$.input.lastName.$error" class="error">
               {{ v$.input.lastName.$errors[0].$message }}
             </span>
@@ -19,10 +21,12 @@
           <div class="display display--width">
             <input
             class="input-form--identity"
+            id="firstName"
             v-model="state.input.firstName"
             type="text"
             placeholder="Prénom"
             />
+            <label for="firstName" class="invisible">Prénom</label>
             <span v-if="v$.input.firstName.$error" class="error">
               {{ v$.input.firstName.$errors[0].$message }}
             </span>
@@ -32,10 +36,12 @@
         <div class="form-row display">
           <input
             class="input-form"
+            id="email"
             v-model="state.input.email"
             type="email"
             placeholder="Email"
           />
+          <label for="email" class="invisible">email</label>
           <span v-if="v$.input.email.$error" class="error">
             {{ v$.input.email.$errors[0].$message }}
           </span>
@@ -43,10 +49,12 @@
         <div class="form-row display">
           <input
             class="input-form"
+            id="password"
             v-model="state.input.password.password"
             type="password"
             placeholder="Mot de passe"
           />
+          <label for="password" class="invisible">Mot de passe</label>
           <span v-if="v$.input.password.password.$error" class="error">
             {{ v$.input.password.password.$errors[0].$message }}
           </span>
@@ -54,10 +62,12 @@
         <div class="form-row display">
           <input
             class="input-form"
+            id="confirmPassword"
             v-model="state.input.password.confirm"
             type="password"
             placeholder="Confirmation du mot de passe"
           />
+          <label for="confirmPassword" class="invisible">Confirmation du mot de passe</label>
           <span v-if="v$.input.password.confirm.$error" class="error">
             {{ v$.input.password.confirm.$errors[0].$message }}
           </span>
@@ -65,12 +75,14 @@
         <div>
           <p>Choisir une photo de profil</p>
           <input
-            style="display: none"
+            class="invisible"
+            id="image"
             type="file"
             accept="image/*"
             @change="onFilePicked"
             ref="fileInput"
           />
+          <label for="image" class="invisible">Image</label>
           <button @click.prevent="$refs.fileInput.click()" class="parcourir">
             Parcourir...
           </button>
@@ -122,7 +134,6 @@
           </button>
         </div>
         <span class="error"> {{ error }} </span>
-        <!-- etape 1 après le backend -->
       </div>
     <p class="card__subtitle">
       Vous avez déjà un compte?
@@ -272,7 +283,7 @@ export default {
             self.$router.push("/posts");
           },
           function (error) {
-            self.error = error.response.data.error; // etape 3
+            self.error = error.response.data.error;
           }
         );
     },

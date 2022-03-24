@@ -11,5 +11,4 @@ module.exports = {
         idle: 10000
     },
     ADMIN_PASSWORD: "MdpAdmin",
-    //mot de passe admin : mettre un mdp et le comparé pour voir si c'est ce qu'il a mis cme mdp dans le form
 };

@@ -31,14 +31,14 @@
           v-if="post.user.id == user.id"
           class="button button__little"
         >
-          <fa icon="trash" />
+          Supprimer
         </button>
         <button
           @click="desabledPost(post.id)"
           v-else-if="user.admin == true"
           class="button button__little"
         >
-          <fa icon="trash" />
+          Supprimer
         </button>
       </div>
         <div class="center">
@@ -51,6 +51,7 @@
             v-model="textComment"
             placeholder="Écrivez un commentaire ici..."
             ></textarea>
+            <label for="comment" class="invisible">Commentaire</label>
             <span class="error" id="error-comment"> </span>
             <button @click="createComment()" class="button">Commenter</button>
         </div>
@@ -198,7 +199,7 @@ export default {
   &__date {
     font-size: small;
     align-self: center;
-    color: gray;
+
   }
 
   &__textpost {

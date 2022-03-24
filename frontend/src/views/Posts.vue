@@ -7,15 +7,18 @@
       <div class="send-post background">
         <div class="send-post__zone">
           <input
-            style="display: none"
+            class="invisible"
+            id="image"
             type="file"
             accept="image/*"
             @change="onFilePicked"
             ref="fileInput"
           />
+          <label for="image" class="invisible">image</label>
           <textarea class="textarea" name="post" id="post" cols="30" rows="10" v-model="state.input.post" :placeholder="`Que voulez-vous partagez, ${user.firstName}?`"></textarea>
+          <label for="post" class="invisible">Publication</label>
           <button @click.prevent="$refs.fileInput.click()" class="button button__little button__little--fa">
-            <fa icon="paperclip"/>
+            <fa icon="paperclip"/> <p class="invisible">Insérer</p>
           </button>
           <img class="send-post__img" ref="filePreview" alt="" src="" />  
         </div>
@@ -134,7 +137,7 @@ export default {
             document.getElementById("post").value = "";
             self.$refs.filePreview.src = "";
             }, function(error) {
-                self.error = error.response.data.error; // etape 3
+                self.error = error.response.data.error;
             })
         }
   }
