@@ -13,7 +13,7 @@
 
 `$ git clone https://github.com/belkacem-yacine/Groupomania.git`
 
-### 2. Entrez dans le fichier config.json (backend > config > db.config.json) et configurez les entrées suivantes de l'objet "development" selon les paramètres de votre base de données :
+### 2. Entrez dans le fichier config.js (backend > config > db.config.js) et configurez les entrées suivantes de l'objet "module.exports" selon les paramètres de votre base de données :
 
 - "USER"
 - "PASSWORD"
